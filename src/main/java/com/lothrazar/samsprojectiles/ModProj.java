@@ -74,14 +74,7 @@ public class ModProj
 	{ 
 		EntitySoulstoneBolt.onLivingHurt(event);
 	}
-	
-    @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-		// some example code
-        System.out.println("DIRT BLOCK >> "+Blocks.dirt.getUnlocalizedName());
-    }
-    
+ 
     @EventHandler
 	public void onInit(FMLInitializationEvent event)
 	{       
@@ -109,7 +102,7 @@ public class ModProj
 		//Block blockClicked = event.world.getBlockState(event.pos).getBlock(); 
 		//TileEntity container = event.world.getTileEntity(event.pos);
 
-		if(held != null && held.getItem() == ItemRegistry.spell_torch_dummy && 
+		if(held != null && held.getItem() == ItemRegistry.ender_torch && 
 				event.action.RIGHT_CLICK_AIR == event.action 
 			)
 		{ 
