@@ -10,19 +10,19 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World; 
 
-public class EntityHarvestbolt extends EntityThrowable//EntitySnowball
+public class EntityHarvestBolt extends EntityThrowable//EntitySnowball
 { 
-    public EntityHarvestbolt(World worldIn)
+    public EntityHarvestBolt(World worldIn)
     {
         super(worldIn);
     }
 
-    public EntityHarvestbolt(World worldIn, EntityLivingBase ent)
+    public EntityHarvestBolt(World worldIn, EntityLivingBase ent)
     {
         super(worldIn, ent);
     }
 
-    public EntityHarvestbolt(World worldIn, double x, double y, double z)
+    public EntityHarvestBolt(World worldIn, double x, double y, double z)
     {
         super(worldIn, x, y, z);
     }

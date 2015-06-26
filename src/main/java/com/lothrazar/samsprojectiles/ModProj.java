@@ -84,7 +84,7 @@ public class ModProj
   		//TODO: Entity ids are the 999,1000,1001 -> config file
         EntityRegistry.registerModEntity(EntitySoulstoneBolt.class, "soulstonebolt",999, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityLightningballBolt.class, "lightningbolt",1000, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityHarvestbolt.class, "harvestbolt",1001, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntityHarvestBolt.class, "harvestbolt",1001, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityWaterBolt.class, "waterbolt",1002, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntitySnowballBolt.class, "frostbolt",1003, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityTorchBolt.class, "torchbolt",1004, instance, 64, 1, true);
@@ -113,6 +113,26 @@ public class ModProj
 			else if(held.getItem() == ItemRegistry.soulstone)
 			{
 				world.spawnEntityInWorld(new EntitySoulstoneBolt(world,player));
+				wasThrown = true;
+			}
+			else if(held.getItem() == ItemRegistry.spell_frostbolt_dummy)
+			{
+				world.spawnEntityInWorld(new EntitySnowballBolt(world,player));
+				wasThrown = true;
+			}
+			else if(held.getItem() == ItemRegistry.spell_water_dummy)
+			{
+				world.spawnEntityInWorld(new EntityWaterBolt(world,player));
+				wasThrown = true;
+			}
+			else if(held.getItem() == ItemRegistry.spell_harvest_dummy)
+			{
+				world.spawnEntityInWorld(new EntityHarvestBolt(world,player));
+				wasThrown = true;
+			}
+			else if(held.getItem() == ItemRegistry.spell_lightning_dummy)
+			{
+				world.spawnEntityInWorld(new EntityLightningballBolt(world,player));
 				wasThrown = true;
 			}
 			
