@@ -1,4 +1,7 @@
+itemGroup.tabSamsProj=Ender Projectiles
 item.ender_torch.name=Ender Torch 
-potion.waterwalk=Waterwalk
-potion.slowfall=Slowfall
-potion.frozen=Frost
+item.soulstone.name=Soulstone
+item.ender_snow.name=Ender Snow
+item.ender_harvest.name=Ender Wheat
+item.ender_lightning.name=Ender Lightning
+item.ender_water.name=Ender Water
