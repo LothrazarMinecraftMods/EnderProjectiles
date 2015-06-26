@@ -22,7 +22,7 @@ public class ItemRegistry
  
 		ender_torch = new Item();
 		ItemRegistry.registerItem(ender_torch, "ender_torch");
-		ender_torch.setCreativeTab(ModProj.tabSamsContent);
+		
 		spell_water_dummy = new Item();
 		ItemRegistry.registerItem(spell_water_dummy, "spell_water_dummy"); 
  
@@ -38,9 +38,10 @@ public class ItemRegistry
 	public static void registerItem(Item item, String name)
 	{ 
 		 item.setUnlocalizedName(name);
+		 item.setCreativeTab(ModProj.tabSamsContent);
 		 
 		 GameRegistry.registerItem(item, name);
-		 
+
 		 items.add(item);
 	}
 }

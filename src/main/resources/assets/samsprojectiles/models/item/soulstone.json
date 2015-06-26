@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "samsmagic:items/soulstone"
+        "layer0": "samsprojectiles:items/soulstone"
     },
     "display": {
         "thirdperson": {

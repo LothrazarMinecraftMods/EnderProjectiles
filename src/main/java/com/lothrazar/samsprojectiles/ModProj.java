@@ -101,15 +101,27 @@ public class ModProj
 		ItemStack held = player.getCurrentEquippedItem();
 		//Block blockClicked = event.world.getBlockState(event.pos).getBlock(); 
 		//TileEntity container = event.world.getTileEntity(event.pos);
-
-		if(held != null && held.getItem() == ItemRegistry.ender_torch && 
-				event.action.RIGHT_CLICK_AIR == event.action 
-			)
-		{ 
-			world.spawnEntityInWorld(new EntityTorchBolt(world,player));
-			player.inventory.decrStackSize(player.inventory.currentItem, 1);
-			player.swingItem();
-			world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F);
+		
+		if(held != null && event.action.RIGHT_CLICK_AIR == event.action )
+		{
+			boolean wasThrown = false;
+			if(held.getItem() == ItemRegistry.ender_torch)
+			{ 
+				world.spawnEntityInWorld(new EntityTorchBolt(world,player));
+				wasThrown = true;
+			}
+			else if(held.getItem() == ItemRegistry.soulstone)
+			{
+				world.spawnEntityInWorld(new EntitySoulstoneBolt(world,player));
+				wasThrown = true;
+			}
+			
+			if(wasThrown)
+			{
+				player.inventory.decrStackSize(player.inventory.currentItem, 1);
+				player.swingItem();
+				world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F);
+			}
 		}
   	}	
     
