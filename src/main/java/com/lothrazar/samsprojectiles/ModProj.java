@@ -47,6 +47,8 @@ public class ModProj
 	public void onPreInit(FMLPreInitializationEvent event)
 	{ 
 //		cfg = new ConfigSpells(new Configuration(event.getSuggestedConfigurationFile()));
+		//TODO: 1. config file to disable each item
+		//TODO: 2. 
 		
 		ItemRegistry.registerItems();
 		
