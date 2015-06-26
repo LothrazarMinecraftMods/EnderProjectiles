@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "samsmagic:items/spell_heart_dummy"
+        "layer0": "samsprojectiles:items/ender_snow"
     },
     "display": {
         "thirdperson": {

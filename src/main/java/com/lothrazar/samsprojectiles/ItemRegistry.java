@@ -9,10 +9,10 @@ public class ItemRegistry
 	public static ArrayList<Item> items = new ArrayList<Item>();
     
 	public static Item soulstone;
-	public static Item spell_water_dummy;
-	public static Item spell_frostbolt_dummy;
-	public static Item spell_harvest_dummy;
-	public static Item spell_lightning_dummy;
+	public static Item ender_water;
+	public static Item ender_snow;
+	public static Item ender_harvest;
+	public static Item ender_lightning;
 	public static Item ender_torch;
   
 	public static void registerItems()
@@ -23,16 +23,17 @@ public class ItemRegistry
 		ender_torch = new Item();
 		ItemRegistry.registerItem(ender_torch, "ender_torch");
 		
-		spell_water_dummy = new Item();
-		ItemRegistry.registerItem(spell_water_dummy, "spell_water_dummy"); 
+		ender_water = new Item();
+		ItemRegistry.registerItem(ender_water, "ender_water"); 
  
-		spell_frostbolt_dummy = new Item();
-		ItemRegistry.registerItem(spell_frostbolt_dummy, "spell_frostbolt_dummy");
+		ender_snow = new Item();
+		ItemRegistry.registerItem(ender_snow, "ender_snow");
  
-		spell_harvest_dummy = new Item();
-		ItemRegistry.registerItem(spell_harvest_dummy, "spell_harvest_dummy");
-		spell_lightning_dummy = new Item();
-		ItemRegistry.registerItem(spell_lightning_dummy, "spell_lightning_dummy");  
+		ender_harvest = new Item();
+		ItemRegistry.registerItem(ender_harvest, "ender_harvest");
+		
+		ender_lightning = new Item();
+		ItemRegistry.registerItem(ender_lightning, "ender_lightning");  
 	}
 	
 	public static void registerItem(Item item, String name)

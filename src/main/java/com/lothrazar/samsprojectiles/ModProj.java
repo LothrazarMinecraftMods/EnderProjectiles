@@ -40,7 +40,7 @@ public class ModProj
 		@Override
 		public Item getTabIconItem() 
 		{ 
-			return ItemRegistry.spell_harvest_dummy;
+			return ItemRegistry.ender_harvest;
 		}
 	};    
 	@EventHandler
@@ -115,22 +115,22 @@ public class ModProj
 				world.spawnEntityInWorld(new EntitySoulstoneBolt(world,player));
 				wasThrown = true;
 			}
-			else if(held.getItem() == ItemRegistry.spell_frostbolt_dummy)
+			else if(held.getItem() == ItemRegistry.ender_snow)
 			{
 				world.spawnEntityInWorld(new EntitySnowballBolt(world,player));
 				wasThrown = true;
 			}
-			else if(held.getItem() == ItemRegistry.spell_water_dummy)
+			else if(held.getItem() == ItemRegistry.ender_water)
 			{
 				world.spawnEntityInWorld(new EntityWaterBolt(world,player));
 				wasThrown = true;
 			}
-			else if(held.getItem() == ItemRegistry.spell_harvest_dummy)
+			else if(held.getItem() == ItemRegistry.ender_harvest)
 			{
 				world.spawnEntityInWorld(new EntityHarvestBolt(world,player));
 				wasThrown = true;
 			}
-			else if(held.getItem() == ItemRegistry.spell_lightning_dummy)
+			else if(held.getItem() == ItemRegistry.ender_lightning)
 			{
 				world.spawnEntityInWorld(new EntityLightningballBolt(world,player));
 				wasThrown = true;
