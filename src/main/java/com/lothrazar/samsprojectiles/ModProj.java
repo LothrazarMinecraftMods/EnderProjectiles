@@ -4,8 +4,7 @@ import com.lothrazar.samsprojectiles.entity.projectile.*;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.player.EntityPlayer; 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -48,7 +47,9 @@ public class ModProj
 	{ 
 //		cfg = new ConfigSpells(new Configuration(event.getSuggestedConfigurationFile()));
 		//TODO: 1. config file to disable each item
-		//TODO: 2. 
+		//TODO: 2. spell.soulstone messages into lang file
+		//TODO 3. add crafting recipes
+		//TODO 
 		
 		ItemRegistry.registerItems();
 		
