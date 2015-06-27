@@ -2,7 +2,7 @@ package com.lothrazar.samsprojectiles;
 
 import com.lothrazar.samsprojectiles.entity.projectile.*;
 
-import  net.minecraft.item.Item;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
