@@ -23,6 +23,10 @@ public class ItemRegistry
 	{   
 		soulstone = new Item();
 		ItemRegistry.registerItem(soulstone, "soulstone");
+		GameRegistry.addShapelessRecipe(new ItemStack(soulstone,6)
+			,new ItemStack(Items.ender_pearl)
+			,new ItemStack(Items.nether_wart)
+			,new ItemStack(Items.ghast_tear));
  
 		ender_torch = new Item();
 		ItemRegistry.registerItem(ender_torch, "ender_torch");
