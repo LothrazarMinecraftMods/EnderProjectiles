@@ -23,7 +23,7 @@ public class ItemRegistry
 	{   
 		soulstone = new Item();
 		ItemRegistry.registerItem(soulstone, "soulstone");
-		GameRegistry.addShapelessRecipe(new ItemStack(soulstone,6)
+		GameRegistry.addShapelessRecipe(new ItemStack(soulstone,2)
 			,new ItemStack(Items.ender_pearl)
 			,new ItemStack(Items.nether_wart)
 			,new ItemStack(Items.ghast_tear));
@@ -34,6 +34,10 @@ public class ItemRegistry
 			,new ItemStack(Items.ender_pearl)
 			,new ItemStack(Items.stick)
 			,new ItemStack(Items.coal));
+		GameRegistry.addShapelessRecipe(new ItemStack(ender_torch,6)
+			,new ItemStack(Items.ender_pearl)
+			,new ItemStack(Items.stick)
+			,new ItemStack(Items.coal,1,1));//charcoal
 		
 		ender_water = new Item();
 		ItemRegistry.registerItem(ender_water, "ender_water"); 
