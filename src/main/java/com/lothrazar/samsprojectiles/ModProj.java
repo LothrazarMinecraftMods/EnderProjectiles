@@ -141,9 +141,10 @@ public class ModProj
 			
 			if(wasThrown)
 			{
-				player.inventory.decrStackSize(player.inventory.currentItem, 1);
 				player.swingItem();
 				world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F);
+				if(player.capabilities.isCreativeMode == false)
+					player.inventory.decrStackSize(player.inventory.currentItem, 1);
 			}
 		}
   	}	
