@@ -12,7 +12,7 @@ public class ItemRegistry
 { 
 	public static ArrayList<Item> items = new ArrayList<Item>();
     
-	public static Item soulstone;
+	//public static Item soulstone;
 	public static Item ender_water;
 	public static Item ender_snow;
 	public static Item ender_harvest;
@@ -21,13 +21,14 @@ public class ItemRegistry
   
 	public static void registerItems()
 	{   
+		/*
 		soulstone = new Item();
 		ItemRegistry.registerItem(soulstone, "soulstone");
 		GameRegistry.addShapelessRecipe(new ItemStack(soulstone,2)
 			,new ItemStack(Items.ender_pearl)
 			,new ItemStack(Items.nether_wart)
 			,new ItemStack(Items.ghast_tear));
- 
+ */
 		ender_torch = new Item();
 		ItemRegistry.registerItem(ender_torch, "ender_torch");
 		GameRegistry.addShapelessRecipe(new ItemStack(ender_torch,6)

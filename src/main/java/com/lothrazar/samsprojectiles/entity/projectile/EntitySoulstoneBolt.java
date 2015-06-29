@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World; 
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -13,7 +14,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 public class EntitySoulstoneBolt extends EntityThrowable//EntitySnowball
 { 
 	public static int secondsFrozenOnHit;
-	public static int damageToNormal = 0;//TODO CONFIG
+	public static int damageToNormal = 0;//TODO CONFIG?
  
     public EntitySoulstoneBolt(World worldIn)
     {
@@ -30,19 +31,14 @@ public class EntitySoulstoneBolt extends EntityThrowable//EntitySnowball
         super(worldIn, x, y, z);
     }
     private static final String KEY_STONED = "soulstone";
-	private static final int VALUE_SINGLEUSE = -1;
-	private static final int VALUE_PERSIST = 1;
+	//private static final int VALUE_SINGLEUSE = -1;//todo: SHOULD HAVE A COUNTER
+	//private static final int VALUE_PERSIST = 1;
 	private static final int VALUE_EMPTY = 0;
 	public static void addEntitySoulstone(EntityLivingBase e) 
 	{  
 		//getInteger by default returns zero if no value exists
-		if(e.getEntityData().getInteger(KEY_STONED) != VALUE_EMPTY)
-		{ 
-			return;//for single use, only apply if existing is empty (do not overwrite persist)
-		}
- 
-		//(item == ItemRegistry.soulstone_persist) ? 
-		int newValue = VALUE_PERSIST;// : VALUE_SINGLEUSE;
+
+		int newValue = e.getEntityData().getInteger(KEY_STONED) + 1;
 		 
 		e.getEntityData().setInteger(KEY_STONED, newValue);
 	} 
@@ -52,13 +48,7 @@ public class EntitySoulstoneBolt extends EntityThrowable//EntitySnowball
         if (mop.entityHit != null)
         {
             float damage = damageToNormal;
-/*
-            if (mop.entityHit instanceof EntityBlaze)
-            {
-               // damage = damageToBlaze;//TODO: config file blaze damage
-            }
-            */
-            //do the snowball damage, which should be none. put out the fire
+
             mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), damage);
             
             if(mop.entityHit instanceof EntityLivingBase)
@@ -67,10 +57,22 @@ public class EntitySoulstoneBolt extends EntityThrowable//EntitySnowball
 
             	addEntitySoulstone(e);
             	
+            	//TODO:?? sound/particles?
+            	
+
+                ModProj.spawnParticle(this.worldObj, EnumParticleTypes.PORTAL, e.getPosition());
+                ModProj.spawnParticle(this.worldObj, EnumParticleTypes.PORTAL, e.getPosition().up());
+
+                this.worldObj.playSoundAtEntity(e, "game.hostile.die", 1.0F, 1.0F);
+            	/*
             	 if(this.getThrower() instanceof EntityPlayer)
             	 {
+            	 //nope this causes 
+            	  Ticking entity
+java.lang.NoSuchMethodError: net.minecraft.util.IChatComponent.func_150254_d()Ljava/lang/String;
             		 ModProj.addChatMessage((EntityPlayer)this.getThrower(), ModProj.lang("spell.soulstone.complete") + e.getDisplayName().getFormattedText());
             	 }
+            	 */
             } 
         }
          
@@ -85,7 +87,9 @@ public class EntitySoulstoneBolt extends EntityThrowable//EntitySnowball
 		//thanks for the help:
 		//http://www.minecraftforge.net/forum/index.php?topic=7475.0
 		
-		if(event.entityLiving.getEntityData().getInteger(KEY_STONED) != VALUE_EMPTY)
+		int soulCurrent = event.entityLiving.getEntityData().getInteger(KEY_STONED);
+		
+		if(soulCurrent > VALUE_EMPTY && event.entityLiving.worldObj.isRemote == false)
 		{  
 			float amount = event.ammount;//yes there is a typo in the word 'amount' but it is not in my code  
 			
@@ -98,12 +102,11 @@ public class EntitySoulstoneBolt extends EntityThrowable//EntitySnowball
 				ModProj.teleportWallSafe(event.entityLiving, event.entity.worldObj,  event.entity.worldObj.getSpawnPoint());
 
 				//boolean isPersist = event.entityLiving.getEntityData().getInteger(KEY_STONED) == VALUE_PERSIST;
+
+				int newValue = soulCurrent - 1;
 				 
-				if(event.entityLiving.getEntityData().getInteger(KEY_STONED) == VALUE_SINGLEUSE)
-				{
-					//if it does not persist, then consume this use
-					event.entityLiving.getEntityData().setInteger(KEY_STONED, VALUE_EMPTY);
-				} 
+				event.entityLiving.getEntityData().setInteger(KEY_STONED, newValue);
+			System.out.println("soulstone saved: "+newValue);
 			}
 		} 
 	} 

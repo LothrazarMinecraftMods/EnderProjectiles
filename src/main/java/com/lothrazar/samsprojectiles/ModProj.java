@@ -113,11 +113,12 @@ public class ModProj
 				world.spawnEntityInWorld(new EntityTorchBolt(world,player));
 				wasThrown = true;
 			}
+			/*
 			else if(held.getItem() == ItemRegistry.soulstone)
 			{
 				world.spawnEntityInWorld(new EntitySoulstoneBolt(world,player));
 				wasThrown = true;
-			}
+			}*/
 			else if(held.getItem() == ItemRegistry.ender_snow)
 			{
 				world.spawnEntityInWorld(new EntitySnowballBolt(world,player));
