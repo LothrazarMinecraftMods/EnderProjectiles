@@ -31,42 +31,58 @@ public class ItemRegistry
  */
 		ender_torch = new Item();
 		ItemRegistry.registerItem(ender_torch, "ender_torch");
-		GameRegistry.addShapelessRecipe(new ItemStack(ender_torch,6)
-			,new ItemStack(Items.ender_pearl)
-			,new ItemStack(Items.stick)
-			,new ItemStack(Items.coal));
-		GameRegistry.addShapelessRecipe(new ItemStack(ender_torch,6)
-			,new ItemStack(Items.ender_pearl)
-			,new ItemStack(Items.stick)
-			,new ItemStack(Items.coal,1,1));//charcoal
+		if(ModProj.torch_recipe > 0)
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_torch, ModProj.torch_recipe)
+				,new ItemStack(Items.ender_pearl)
+				,new ItemStack(Items.stick)
+				,new ItemStack(Items.coal));
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_torch, ModProj.torch_recipe)
+				,new ItemStack(Items.ender_pearl)
+				,new ItemStack(Items.stick)
+				,new ItemStack(Items.coal,1,1));//charcoal
+		}
 		
 		ender_water = new Item();
 		ItemRegistry.registerItem(ender_water, "ender_water"); 
-		GameRegistry.addShapelessRecipe(new ItemStack(ender_water,2)
-			,new ItemStack(Items.blaze_rod)
-			,new ItemStack(Items.ender_pearl)
-			,new ItemStack(Blocks.ice));
+		if(ModProj.water_recipe > 0)
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_water, ModProj.water_recipe)
+				,new ItemStack(Items.blaze_rod)
+				,new ItemStack(Items.ender_pearl)
+				,new ItemStack(Blocks.ice));
+		}
  
 		ender_snow = new Item();
 		ItemRegistry.registerItem(ender_snow, "ender_snow");
-		GameRegistry.addShapelessRecipe(new ItemStack(ender_snow,4)
-			,new ItemStack(Items.ender_pearl)
-			,new ItemStack(Blocks.ice)
-			,new ItemStack(Items.snowball));
+		if(ModProj.snow_recipe > 0)
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_snow, ModProj.snow_recipe)
+				,new ItemStack(Items.ender_pearl)
+				,new ItemStack(Blocks.ice)
+				,new ItemStack(Items.snowball));
+			
+		}
  
 		ender_harvest = new Item();
 		ItemRegistry.registerItem(ender_harvest, "ender_harvest");
-		GameRegistry.addShapelessRecipe(new ItemStack(ender_harvest,4)
-			,new ItemStack(Items.ender_pearl)
-			,new ItemStack(Items.wheat)
-			,new ItemStack(Items.wheat_seeds));
+		if(ModProj.harvest_recipe > 0)
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_harvest, ModProj.harvest_recipe)
+				,new ItemStack(Items.ender_pearl)
+				,new ItemStack(Items.wheat)
+				,new ItemStack(Items.wheat_seeds));
+		}
 		
 		ender_lightning = new Item();
 		ItemRegistry.registerItem(ender_lightning, "ender_lightning"); 
-		GameRegistry.addShapelessRecipe(new ItemStack(ender_lightning,1)
-			,new ItemStack(Items.ender_pearl)
-			,new ItemStack(Items.quartz)
-			,new ItemStack(Items.ghast_tear)); 
+		if(ModProj.lightning_recipe > 0)
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_lightning, ModProj.lightning_recipe)
+				,new ItemStack(Items.ender_pearl)
+				,new ItemStack(Items.quartz)
+				,new ItemStack(Items.ghast_tear)); 
+		}
 	}
 	
 	public static void registerItem(Item item, String name)

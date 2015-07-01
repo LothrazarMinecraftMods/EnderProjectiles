@@ -13,6 +13,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -42,13 +43,33 @@ public class ModProj
 			return ItemRegistry.ender_harvest;
 		}
 	};    
+	
+	public static int torch_recipe;
+	public static int lightning_recipe;
+	public static int snow_recipe;
+	public static int water_recipe;
+	public static int harvest_recipe;
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent event)
 	{ 
-//		cfg = new ConfigSpells(new Configuration(event.getSuggestedConfigurationFile()));
+		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		config.load();
+		
+		config.addCustomCategoryComment(MODID, "For each item, you can decide how many the recipe produces.  Set to zero to disable the crafting recipe.");
+		
+		torch_recipe = config.getInt("torch_crafted", MODID, 6, 0, 64, "");
+		lightning_recipe = config.getInt("lightning_crafted", MODID, 1, 0, 64, "");
+		snow_recipe = config.getInt("snow_crafted", MODID, 4, 0, 64, "");
+		water_recipe = config.getInt("water_crafted", MODID, 2, 0, 64, "");
+		harvest_recipe = config.getInt("harvest_crafted", MODID, 4, 0, 64, "");
+		
+		
+		if(config.hasChanged()){config.save();}
+		
+		
 		//TODO: 1. config file to disable each item
-		//TODO: 2. spell.soulstone messages into lang file
-		//TODO 3. add crafting recipes
+		//TODO: 2. fix soulstone???
+		//TODO 3. config each recipe output
 		//TODO 
 		
 		ItemRegistry.registerItems();
