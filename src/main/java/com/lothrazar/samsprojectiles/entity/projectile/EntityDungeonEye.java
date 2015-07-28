@@ -59,8 +59,9 @@ public class EntityDungeonEye  extends EntityThrowable// EntityEnderEye  impleme
 
        // this.despawnTimer = 0;
        // this.shatterOrDrop = this.rand.nextInt(5) > 0;
-        EntityEnderEye test;
-        this.setThrowableHeading(this.targetX, this.targetZ, this.targetY, (float)(this.getVelocity()+0.1F), 1.0F);
+      
+        //default velocity was 1.5F //TODO: maybe in config
+        this.setThrowableHeading(this.targetX, this.targetZ, this.targetY, (float)(this.getVelocity()-0.1F), 1.0F);
     } 
     
     @Override
@@ -100,7 +101,8 @@ public class EntityDungeonEye  extends EntityThrowable// EntityEnderEye  impleme
                
            }
     	   float f3 = 0.25F;
-    	   this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX - this.motionX * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double)f3 - 0.5D, this.posZ - this.motionZ * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ, new int[0]);
+    	   for (int i = 0; i < 4; ++i) 
+    		   this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX - this.motionX * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double)f3 - 0.5D, this.posZ - this.motionZ * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ, new int[0]);
     	   
     }
    
