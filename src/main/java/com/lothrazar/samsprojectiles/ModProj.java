@@ -150,22 +150,27 @@ public class ModProj
                 BlockPos blockpos = findClosestBlock(player, Blocks.mob_spawner, EntityDungeonEye.RADIUS);
 //but find dungeon instead of stronghold
                 
-                if (blockpos == null)
+                if (blockpos != null)
                 {
-                	blockpos = new BlockPos(player.posX,player.posY+2,player.posZ);//go straight up instead
+                //	blockpos = new BlockPos(player.posX,player.posY+2,player.posZ);//go straight up instead
                     //= new EntityDungeonEye(world, player.posX, player.posY, player.posZ);
                     
-                	//TODO: we could just spam/explode particles right away, if none found
-                	 // float f3 = 0.25F;
-               	   //world.spawnParticle(EnumParticleTypes.PORTAL, player.posX - this.motionX * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double)f3 - 0.5D, this.posZ - this.motionZ * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ, new int[0]);
-               	   
+               
                     entityendereye.moveTowards(blockpos);
                      
+         
+                    world.spawnEntityInWorld(entityendereye); 
+                    
+    				wasThrown = true;
+                }
+                else
+                {
+                 	//TODO: we could just spam/explode particles right away, if none found
+               	 // float f3 = 0.25F;
+              	   //world.spawnParticle(EnumParticleTypes.PORTAL, player.posX - this.motionX * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double)f3 - 0.5D, this.posZ - this.motionZ * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ, new int[0]);
+              	   
                 }
 
-                world.spawnEntityInWorld(entityendereye); 
-                
-				wasThrown = true;
 			}
 			if(held.getItem() == ItemRegistry.ender_bed)
 			{ 

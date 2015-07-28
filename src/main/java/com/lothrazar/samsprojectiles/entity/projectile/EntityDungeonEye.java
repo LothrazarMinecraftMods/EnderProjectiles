@@ -43,7 +43,7 @@ public class EntityDungeonEye  extends EntityThrowable// EntityEnderEye  impleme
         double d2 = d0 - this.posX;
         double d3 = d1 - this.posZ;
         float f = MathHelper.sqrt_double(d2 * d2 + d3 * d3);
-
+/*
         if (f > 12.0F)
         {
             this.targetX = this.posX + d2 / (double)f * 12.0D;
@@ -51,17 +51,17 @@ public class EntityDungeonEye  extends EntityThrowable// EntityEnderEye  impleme
             this.targetY = this.posY + 8.0D;
         }
         else
-        {
+        {*/
             this.targetX = d0;
             this.targetY = (double)i;
             this.targetZ = d1;
-        }
+       // }
 
        // this.despawnTimer = 0;
        // this.shatterOrDrop = this.rand.nextInt(5) > 0;
       
         //default velocity was 1.5F //TODO: maybe in config
-        this.setThrowableHeading(this.targetX, this.targetZ, this.targetY, (float)(this.getVelocity()-0.1F), 1.0F);
+        this.setThrowableHeading(this.targetX, this.targetZ, this.targetY, (float)(this.getVelocity()-0.2F), 0.5F);
     } 
     
     @Override
