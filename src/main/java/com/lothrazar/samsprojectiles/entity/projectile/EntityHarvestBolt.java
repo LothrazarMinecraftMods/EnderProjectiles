@@ -30,20 +30,20 @@ public class EntityHarvestBolt extends EntityThrowable//EntitySnowball
     @Override
     protected void onImpact(MovingObjectPosition mop)
     {
-    	if(this.getThrower() instanceof EntityPlayer && mop.sideHit != null)
+    	if(this.getThrower() != null && mop.sideHit != null)
     	{
         	BlockPos offset = mop.getBlockPos().offset(mop.sideHit);
         	
     		//it harvests a horizontal slice each time
-        	harvestArea(this.worldObj, (EntityPlayer)this.getThrower(), mop.getBlockPos(),4);
-        	harvestArea(this.worldObj, (EntityPlayer)this.getThrower(), offset,6);
-        	harvestArea(this.worldObj, (EntityPlayer)this.getThrower(), offset.up(),4);
+        	harvestArea(this.worldObj, this.getThrower(), mop.getBlockPos(),4);
+        	harvestArea(this.worldObj, this.getThrower(), offset,6);//TODO: int ranges in config!?!?!
+        	harvestArea(this.worldObj, this.getThrower(), offset.up(),4);
     	}
 		 
         this.setDead();
  
     }  
-    public static int harvestArea(World world, EntityPlayer player, BlockPos pos, int radius)
+    public static int harvestArea(World world, EntityLivingBase player, BlockPos pos, int radius)
 	{
 		int x = (int)player.posX;
 		//int y = (int)player.posY;

@@ -72,12 +72,7 @@ public class EntityWaterBolt extends EntityThrowable
 		waterBoth.add(Blocks.water);
     	//Util.spawnParticle(this.worldObj, EnumParticleTypes.SNOWBALL, pos);
     	//Util.spawnParticle(this.worldObj, EnumParticleTypes.SNOW_SHOVEL, pos);
-      /*
-		
-		if( event.action.RIGHT_CLICK_BLOCK == event.action )
-		{     
-			if(event.world.isAirBlock(hit) || waterBoth.contains(hitBlock) || hitBlock.isReplaceable(event.world, hit))
-			{  */
+ 
         if( mop.sideHit != null && this.getThrower() instanceof EntityPlayer)
         {
         	this.worldObj.extinguishFire((EntityPlayer)this.getThrower(), pos, mop.sideHit);
