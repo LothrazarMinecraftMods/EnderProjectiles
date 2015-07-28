@@ -42,7 +42,7 @@ public class ItemRegistry
 			GameRegistry.addShapelessRecipe(new ItemStack(ender_wool, ModProj.wool_recipe)
 				,new ItemStack(Items.ender_pearl)
 				,new ItemStack(Blocks.wool)
-				,new ItemStack(Items.iron_ingot));
+				,new ItemStack(Items.shears));
 		}
 		/*
 		soulstone = new Item();
