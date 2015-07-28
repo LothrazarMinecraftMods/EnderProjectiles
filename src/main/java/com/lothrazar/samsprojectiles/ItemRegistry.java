@@ -18,9 +18,20 @@ public class ItemRegistry
 	public static Item ender_harvest;
 	public static Item ender_lightning;
 	public static Item ender_torch;
+	public static Item ender_wool;
   
 	public static void registerItems()
 	{   
+		ender_wool = new Item();
+		ItemRegistry.registerItem(ender_wool, "ender_wool");
+		
+		if(ModProj.wool_recipe > 0)
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_wool, ModProj.wool_recipe)
+				,new ItemStack(Items.ender_pearl)
+				,new ItemStack(Blocks.wool)
+				,new ItemStack(Items.iron_ingot));
+		}
 		/*
 		soulstone = new Item();
 		ItemRegistry.registerItem(soulstone, "soulstone");

@@ -43,7 +43,7 @@ public class ModProj
 			return ItemRegistry.ender_harvest;
 		}
 	};    
-	
+	public static int wool_recipe;//TODO
 	public static int torch_recipe;
 	public static int lightning_recipe;
 	public static int snow_recipe;
@@ -62,23 +62,22 @@ public class ModProj
 		snow_recipe = config.getInt("snow_crafted", MODID, 4, 0, 64, "");
 		water_recipe = config.getInt("water_crafted", MODID, 2, 0, 64, "");
 		harvest_recipe = config.getInt("harvest_crafted", MODID, 4, 0, 64, "");
-		
+		wool_recipe= config.getInt("wool_crafted", MODID, 12, 0, 64, "");
 		
 		if(config.hasChanged()){config.save();}
 		
 		
 		//TODO: 1. config file to disable each item
 		//TODO: 2. fix soulstone???
-		//TODO 3. config each recipe output
-		//TODO 
+ 
 		
 		ItemRegistry.registerItems();
 		
 		FMLCommonHandler.instance().bus().register(instance); 
 		MinecraftForge.EVENT_BUS.register(instance);
-		
-		
+		 
 	}
+	
 	public static void teleportWallSafe(EntityLivingBase player, World world, BlockPos coords)
 	{
 		player.setPositionAndUpdate(coords.getX(), coords.getY(), coords.getZ()); 
@@ -93,6 +92,7 @@ public class ModProj
 			entity.setPositionAndUpdate(entity.posX, entity.posY + 1.0D, entity.posZ);
 		}
 	}
+	
 	@SubscribeEvent
 	public void onLivingHurt(LivingHurtEvent event) 
 	{ 
@@ -132,6 +132,11 @@ public class ModProj
 			if(held.getItem() == ItemRegistry.ender_torch)
 			{ 
 				world.spawnEntityInWorld(new EntityTorchBolt(world,player));
+				wasThrown = true;
+			}
+			if(held.getItem() == ItemRegistry.ender_wool)
+			{ 
+				world.spawnEntityInWorld(new EntityShearingBolt(world,player));
 				wasThrown = true;
 			}
 			/*
