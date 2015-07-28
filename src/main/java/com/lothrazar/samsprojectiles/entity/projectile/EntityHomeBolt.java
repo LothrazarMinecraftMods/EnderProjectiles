@@ -42,7 +42,7 @@ public class EntityHomeBolt  extends EntityThrowable
 
 			 teleportWallSafe(player, worldObj, realBedPos); 
 			 worldObj.playSoundAtEntity(player, "mob.endermen.portal", 1.0F, 1.0F);
-		 
+			
 			 this.setDead();
     	 }
 	}

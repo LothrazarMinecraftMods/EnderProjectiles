@@ -1,10 +1,14 @@
 package com.lothrazar.samsprojectiles;
  
+import java.util.ArrayList;
+
 import com.lothrazar.samsprojectiles.entity.projectile.*;
 
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer; 
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -51,6 +55,8 @@ public class ModProj
 	public static int water_recipe;
 	public static int harvest_recipe;
 	public static int bed_recipe;
+	public static int dungeon_recipe;
+	
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent event)
 	{ 
@@ -67,6 +73,8 @@ public class ModProj
 		wool_recipe = config.getInt("wool_crafted", MODID, 12, 0, 64, "");
 		fishing_recipe = config.getInt("fishing_recipe", MODID, 10, 0, 64, "");
 		bed_recipe = config.getInt("bed_recipe", MODID, 2, 0, 64, "");
+		dungeon_recipe = config.getInt("dungeon_recipe", MODID, 2, 0, 64, "");
+		
 		if(config.hasChanged()){config.save();}
 		
 		
@@ -134,9 +142,28 @@ public class ModProj
 		if(held != null && event.action.RIGHT_CLICK_AIR == event.action )
 		{
 			boolean wasThrown = false;
+			if(held.getItem() == ItemRegistry.ender_dungeon)
+			{ 
+ 
+                BlockPos blockpos = findClosestBlock(player, Blocks.mob_spawner, EntityDungeonEye.MAXRADIUS);
+//but find dungeon instead of stronghold
+                if (blockpos != null)
+                {
+System.out.println("moving to dungeon at "+blockpos.getX()+" "+blockpos.getY()+" "+blockpos.getZ());
+                    EntityDungeonEye entityendereye = new EntityDungeonEye(world, player.posX, player.posY, player.posZ);
+                    entityendereye.moveTowards(blockpos);
+                    world.spawnEntityInWorld(entityendereye); 
+      
+                }
+         
+				wasThrown = true;
+			}
 			if(held.getItem() == ItemRegistry.ender_bed)
 			{ 
 				world.spawnEntityInWorld(new EntityHomeBolt(world,player));
+
+				
+				
 				wasThrown = true;
 			}
 			if(held.getItem() == ItemRegistry.ender_torch)
@@ -190,7 +217,61 @@ public class ModProj
 			}
 		}
   	}	
-    
+    public static BlockPos findClosestBlock(EntityPlayer player, Block blockHunt, int RADIUS ) 
+	{        
+    	//imported from MY CommandSearchSpawner in ./Commands/
+    	BlockPos found = null;
+		int xMin = (int) player.posX - RADIUS;
+		int xMax = (int) player.posX + RADIUS;
+
+		int yMin = (int) player.posY - RADIUS;
+		int yMax = (int) player.posY + RADIUS;
+
+		int zMin = (int) player.posZ - RADIUS;
+		int zMax = (int) player.posZ + RADIUS;
+		 
+		int distance = 0, distanceClosest = RADIUS * RADIUS;
+		
+		BlockPos posCurrent = null; 
+		for (int xLoop = xMin; xLoop <= xMax; xLoop++)
+		{
+			for (int yLoop = yMin; yLoop <= yMax; yLoop++)
+			{
+				for (int zLoop = zMin; zLoop <= zMax; zLoop++)
+				{  
+					posCurrent = new BlockPos(xLoop, yLoop, zLoop);
+					
+					if(player.worldObj.getBlockState(posCurrent).getBlock().equals(blockHunt))
+					{  
+						//  find closest?
+						
+						if(found == null){ found = posCurrent;}
+						else
+						{
+							distance = (int) distanceBetweenHorizontal(player.getPosition(), posCurrent);
+							
+							if(distance < distanceClosest)
+							{
+								found = posCurrent;
+								
+								distanceClosest = distance;
+							}
+						}
+					} 
+				}
+			}
+		}
+		
+		return found; 
+	}
+	public static double distanceBetweenHorizontal(BlockPos start, BlockPos end)
+	{
+		int xDistance =  Math.abs(start.getX() - end.getX() );
+		int zDistance =  Math.abs(start.getZ() - end.getZ() );
+		//ye olde pythagoras
+		return Math.sqrt(xDistance * xDistance + zDistance * zDistance);
+	}
+	
 	public static void addChatMessage(EntityPlayer player,String string) 
 	{ 
 		player.addChatMessage(new ChatComponentTranslation(string));

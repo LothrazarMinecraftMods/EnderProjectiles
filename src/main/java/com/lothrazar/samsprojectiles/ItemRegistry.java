@@ -2,6 +2,7 @@ package com.lothrazar.samsprojectiles;
 
 import java.util.ArrayList;  
 
+import net.minecraft.entity.item.EntityEnderEye;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -21,9 +22,21 @@ public class ItemRegistry
 	public static Item ender_torch;
 	public static Item ender_wool;
 	public static Item ender_fishing;
+	public static Item ender_dungeon;
   
 	public static void registerItems()
 	{    
+		ender_dungeon = new Item();
+		ItemRegistry.registerItem(ender_dungeon, "ender_dungeon");
+		
+		if(ModProj.dungeon_recipe > 0)
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_dungeon, ModProj.dungeon_recipe)
+				,new ItemStack(Items.ender_pearl)
+				,new ItemStack(Blocks.mossy_cobblestone)
+				,new ItemStack(Blocks.iron_bars));
+		}
+		
 		ender_bed = new Item();
 		ItemRegistry.registerItem(ender_bed, "ender_bed");
 		
