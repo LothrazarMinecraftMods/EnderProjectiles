@@ -127,6 +127,7 @@ public class ModProj
         EntityRegistry.registerModEntity(EntityShearingBolt.class, "woolbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityFishingBolt.class, "fishingbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityHomeBolt.class, "bedbolt",entityID++, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntityDungeonEye.class, "bedbolt",entityID++, instance, 64, 1, true);
 		
 		proxy.registerRenderers();
 	}
@@ -144,18 +145,25 @@ public class ModProj
 			boolean wasThrown = false;
 			if(held.getItem() == ItemRegistry.ender_dungeon)
 			{ 
+                EntityDungeonEye entityendereye = new EntityDungeonEye(world, player);
  
-                BlockPos blockpos = findClosestBlock(player, Blocks.mob_spawner, EntityDungeonEye.MAXRADIUS);
+                BlockPos blockpos = findClosestBlock(player, Blocks.mob_spawner, EntityDungeonEye.RADIUS);
 //but find dungeon instead of stronghold
-                if (blockpos != null)
+                
+                if (blockpos == null)
                 {
-System.out.println("moving to dungeon at "+blockpos.getX()+" "+blockpos.getY()+" "+blockpos.getZ());
-                    EntityDungeonEye entityendereye = new EntityDungeonEye(world, player.posX, player.posY, player.posZ);
+                	blockpos = new BlockPos(player.posX,player.posY+100,player.posZ);//go straight up instead
+                    //= new EntityDungeonEye(world, player.posX, player.posY, player.posZ);
+                    
+                    
                     entityendereye.moveTowards(blockpos);
-                    world.spawnEntityInWorld(entityendereye); 
+                    
+                    
       
                 }
-         
+
+                world.spawnEntityInWorld(entityendereye); 
+                
 				wasThrown = true;
 			}
 			if(held.getItem() == ItemRegistry.ender_bed)

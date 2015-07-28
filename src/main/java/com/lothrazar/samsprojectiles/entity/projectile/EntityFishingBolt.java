@@ -80,20 +80,21 @@ public class EntityFishingBolt extends EntityThrowable
 		
 		if(diceRoll < plainChance)
 		{
-		 fishSpawned = plain;
+			fishSpawned = plain;
 		}
 		else if(diceRoll < salmonChance )
 		{
-		 fishSpawned = salmon;
+			fishSpawned = salmon;
 		}
 		else if(diceRoll < clownfishChance )
 		{
-		 fishSpawned = clownfish;
+			fishSpawned = clownfish;
 		}
 		else
 		{
-		 fishSpawned = pufferfish;
+			fishSpawned = pufferfish;
 		}
+		
 		return fishSpawned;
 	}
 }
