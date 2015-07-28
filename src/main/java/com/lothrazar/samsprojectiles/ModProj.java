@@ -106,12 +106,14 @@ public class ModProj
   		//TODO: we could make our own custom projectileRegistry, that acts as our other ones above do.
   		
   		//TODO: Entity ids are the 999,1000,1001 -> config file
-        EntityRegistry.registerModEntity(EntitySoulstoneBolt.class, "soulstonebolt",999, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityLightningballBolt.class, "lightningbolt",1000, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityHarvestBolt.class, "harvestbolt",1001, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityWaterBolt.class, "waterbolt",1002, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntitySnowballBolt.class, "frostbolt",1003, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityTorchBolt.class, "torchbolt",1004, instance, 64, 1, true);
+    	int entityID = 999;
+        EntityRegistry.registerModEntity(EntitySoulstoneBolt.class, "soulstonebolt",entityID++, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntityLightningballBolt.class, "lightningbolt",entityID++, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntityHarvestBolt.class, "harvestbolt",entityID++, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntityWaterBolt.class, "waterbolt",entityID++, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntitySnowballBolt.class, "frostbolt",entityID++, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntityTorchBolt.class, "torchbolt",entityID++, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntityShearingBolt.class, "woolbolt",entityID++, instance, 64, 1, true);
 		
 		proxy.registerRenderers();
 	}
@@ -123,9 +125,7 @@ public class ModProj
 		World world = event.world;
 		EntityPlayer player = event.entityPlayer;
 		ItemStack held = player.getCurrentEquippedItem();
-		//Block blockClicked = event.world.getBlockState(event.pos).getBlock(); 
-		//TileEntity container = event.world.getTileEntity(event.pos);
-		
+	
 		if(held != null && event.action.RIGHT_CLICK_AIR == event.action )
 		{
 			boolean wasThrown = false;

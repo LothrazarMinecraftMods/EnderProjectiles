@@ -7,6 +7,7 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -48,7 +49,8 @@ public class EntityShearingBolt  extends EntityThrowable
                     entityitem.motionX += (double)((sheep.worldObj.rand.nextFloat() - sheep.worldObj.rand.nextFloat()) * 0.1F);
                     entityitem.motionZ += (double)((sheep.worldObj.rand.nextFloat() - sheep.worldObj.rand.nextFloat()) * 0.1F);
                 }
-                
+
+                sheep.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0);
                 sheep.playSound("mob.sheep.shear", 1.0F, 1.0F);
 			} 
         }
