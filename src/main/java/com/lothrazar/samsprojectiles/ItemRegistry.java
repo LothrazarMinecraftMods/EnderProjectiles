@@ -34,7 +34,7 @@ public class ItemRegistry
 			GameRegistry.addShapelessRecipe(new ItemStack(ender_dungeon, ModProj.dungeon_recipe)
 				,new ItemStack(Items.ender_pearl)
 				,new ItemStack(Blocks.mossy_cobblestone)
-				,new ItemStack(Blocks.iron_bars));
+				,new ItemStack(Items.nether_wart));//Blocks.iron_bars
 		}
 		
 		ender_bed = new Item();
