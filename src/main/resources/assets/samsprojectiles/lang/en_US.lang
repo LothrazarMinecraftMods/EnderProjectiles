@@ -1,7 +1,7 @@
 itemGroup.tabSamsProj=Ender Projectiles
-item.ender_torch.name=Ender Torch 
-item.soulstone.name=Soulstone
+item.ender_torch.name=Ender Torch
 item.ender_snow.name=Ender Snow
 item.ender_harvest.name=Ender Wheat
 item.ender_lightning.name=Ender Lightning
 item.ender_water.name=Ender Water
+item.ender_bed.name=Ender Ruby

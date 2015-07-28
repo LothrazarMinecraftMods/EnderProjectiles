@@ -50,6 +50,7 @@ public class ModProj
 	public static int snow_recipe;
 	public static int water_recipe;
 	public static int harvest_recipe;
+	public static int bed_recipe;
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent event)
 	{ 
@@ -65,7 +66,7 @@ public class ModProj
 		harvest_recipe = config.getInt("harvest_crafted", MODID, 4, 0, 64, "");
 		wool_recipe = config.getInt("wool_crafted", MODID, 12, 0, 64, "");
 		fishing_recipe = config.getInt("fishing_recipe", MODID, 10, 0, 64, "");
-		
+		bed_recipe = config.getInt("bed_recipe", MODID, 2, 0, 64, "");
 		if(config.hasChanged()){config.save();}
 		
 		
@@ -117,6 +118,7 @@ public class ModProj
         EntityRegistry.registerModEntity(EntityTorchBolt.class, "torchbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityShearingBolt.class, "woolbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityFishingBolt.class, "fishingbolt",entityID++, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntityHomeBolt.class, "bedbolt",entityID++, instance, 64, 1, true);
 		
 		proxy.registerRenderers();
 	}
@@ -132,6 +134,11 @@ public class ModProj
 		if(held != null && event.action.RIGHT_CLICK_AIR == event.action )
 		{
 			boolean wasThrown = false;
+			if(held.getItem() == ItemRegistry.ender_bed)
+			{ 
+				world.spawnEntityInWorld(new EntityHomeBolt(world,player));
+				wasThrown = true;
+			}
 			if(held.getItem() == ItemRegistry.ender_torch)
 			{ 
 				world.spawnEntityInWorld(new EntityTorchBolt(world,player));

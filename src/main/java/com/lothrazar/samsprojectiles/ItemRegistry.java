@@ -13,6 +13,7 @@ public class ItemRegistry
 	public static ArrayList<Item> items = new ArrayList<Item>();
     
 	//public static Item soulstone;
+	public static Item ender_bed;
 	public static Item ender_water;
 	public static Item ender_snow;
 	public static Item ender_harvest;
@@ -22,7 +23,18 @@ public class ItemRegistry
 	public static Item ender_fishing;
   
 	public static void registerItems()
-	{   
+	{    
+		ender_bed = new Item();
+		ItemRegistry.registerItem(ender_bed, "ender_bed");
+		
+		if(ModProj.bed_recipe > 0)
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_bed, ModProj.bed_recipe)
+				,new ItemStack(Items.ender_pearl)
+				,new ItemStack(Items.redstone)
+				,new ItemStack(Items.bed));
+		}
+		
 		ender_fishing = new Item();
 		ItemRegistry.registerItem(ender_fishing, "ender_fishing");
 		
