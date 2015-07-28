@@ -11,7 +11,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntityShearingBolt  extends EntityThrowable
+public class EntityShearingBolt extends EntityThrowable
 {
     public EntityShearingBolt(World worldIn)
     {

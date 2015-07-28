@@ -43,7 +43,8 @@ public class ModProj
 			return ItemRegistry.ender_harvest;
 		}
 	};    
-	public static int wool_recipe;//TODO
+	public static int fishing_recipe;
+	public static int wool_recipe;
 	public static int torch_recipe;
 	public static int lightning_recipe;
 	public static int snow_recipe;
@@ -62,7 +63,8 @@ public class ModProj
 		snow_recipe = config.getInt("snow_crafted", MODID, 4, 0, 64, "");
 		water_recipe = config.getInt("water_crafted", MODID, 2, 0, 64, "");
 		harvest_recipe = config.getInt("harvest_crafted", MODID, 4, 0, 64, "");
-		wool_recipe= config.getInt("wool_crafted", MODID, 12, 0, 64, "");
+		wool_recipe = config.getInt("wool_crafted", MODID, 12, 0, 64, "");
+		fishing_recipe = config.getInt("fishing_recipe", MODID, 10, 0, 64, "");
 		
 		if(config.hasChanged()){config.save();}
 		
@@ -114,6 +116,7 @@ public class ModProj
         EntityRegistry.registerModEntity(EntitySnowballBolt.class, "frostbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityTorchBolt.class, "torchbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityShearingBolt.class, "woolbolt",entityID++, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntityFishingBolt.class, "fishingbolt",entityID++, instance, 64, 1, true);
 		
 		proxy.registerRenderers();
 	}
