@@ -142,6 +142,11 @@ public class ModProj
 				world.spawnEntityInWorld(new EntityShearingBolt(world,player));
 				wasThrown = true;
 			}
+			if(held.getItem() == ItemRegistry.ender_fishing)
+			{ 
+				world.spawnEntityInWorld(new EntityFishingBolt(world,player));
+				wasThrown = true;
+			}
 			/*
 			else if(held.getItem() == ItemRegistry.soulstone)
 			{

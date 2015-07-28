@@ -26,9 +26,9 @@ public class ItemRegistry
 		ender_fishing = new Item();
 		ItemRegistry.registerItem(ender_fishing, "ender_fishing");
 		
-		if(ModProj.wool_recipe > 0)
+		if(ModProj.fishing_recipe > 0)
 		{
-			GameRegistry.addShapelessRecipe(new ItemStack(ender_fishing, ModProj.wool_recipe)
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_fishing, ModProj.fishing_recipe)
 				,new ItemStack(Items.ender_pearl)
 				,new ItemStack(Items.gunpowder)
 				,new ItemStack(Items.string));
