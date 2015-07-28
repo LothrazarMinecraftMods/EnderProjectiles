@@ -168,7 +168,10 @@ public class ModProj
                  	//TODO: we could just spam/explode particles right away, if none found
                	 // float f3 = 0.25F;
               	   //world.spawnParticle(EnumParticleTypes.PORTAL, player.posX - this.motionX * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double)f3 - 0.5D, this.posZ - this.motionZ * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ, new int[0]);
-              	   
+                	   float f3 = 0.25F;
+                	   for (int i = 0; i < 4; ++i) 
+                		   world.spawnParticle(EnumParticleTypes.PORTAL, player.posX  + world.rand.nextDouble() * 0.6D - 0.3D, player.posY + 0.5D, player.posZ+ (double)f3 + world.rand.nextDouble() * 0.6D - 0.3D, player.motionX, player.motionY, player.motionZ, new int[0]);
+                	   
                 }
 
 			}
