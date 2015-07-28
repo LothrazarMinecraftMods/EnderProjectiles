@@ -1,5 +1,6 @@
 package com.lothrazar.samsprojectiles.entity.projectile;
  
+import com.lothrazar.samsprojectiles.ItemRegistry;
 import com.lothrazar.samsprojectiles.ModProj;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -37,7 +38,7 @@ public class EntityFishingBolt extends EntityThrowable
 	protected void onImpact(MovingObjectPosition mop) 
 	{
 		BlockPos pos = mop.getBlockPos();
-        if(pos == null){return;}//hasn't happened yet, but..
+        if(pos == null){return;} 
        
         if(this.isInWater())
         {
@@ -45,12 +46,21 @@ public class EntityFishingBolt extends EntityThrowable
 
 			EntityItem ei = new EntityItem(worldObj, pos.getX(),pos.getY(),pos.getZ(), getRandomFish());
 			
-	 		if(worldObj.isRemote == false)//do not spawn a second 'ghost' one on client side
+	 		if(worldObj.isRemote == false) 
 	 		{
 	 			worldObj.spawnEntityInWorld(ei);
 	 		} 
 	 		
 			worldObj.playSoundAtEntity(ei, "game.neutral.swim.splash", 1.0F, 1.0F);
+			this.setDead();
+        }
+        else
+        {
+	 		if(worldObj.isRemote == false) 
+	 		{
+	 			worldObj.spawnEntityInWorld( new EntityItem(worldObj, pos.getX(),pos.getY(),pos.getZ(), new ItemStack(ItemRegistry.ender_fishing)));
+	 			this.setDead();
+	 		} 
         }
 	}
 

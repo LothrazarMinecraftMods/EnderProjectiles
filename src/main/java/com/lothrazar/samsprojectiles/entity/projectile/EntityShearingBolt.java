@@ -1,5 +1,7 @@
 package com.lothrazar.samsprojectiles.entity.projectile;
 
+import com.lothrazar.samsprojectiles.ItemRegistry;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntitySheep;
@@ -7,6 +9,7 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -52,7 +55,18 @@ public class EntityShearingBolt extends EntityThrowable
 
                 sheep.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0);
                 sheep.playSound("mob.sheep.shear", 1.0F, 1.0F);
+                this.setDead();
 			} 
         }
+		else
+		{
+			BlockPos pos = mop.getBlockPos();
+
+	 		if(pos != null && worldObj.isRemote == false) 
+	 		{
+	 			worldObj.spawnEntityInWorld( new EntityItem(worldObj, pos.getX(),pos.getY(),pos.getZ(), new ItemStack(ItemRegistry.ender_wool)));
+	 			this.setDead();
+	 		} 
+		}
 	}
 }
