@@ -100,18 +100,18 @@ public class ModProj
 			entity.setPositionAndUpdate(entity.posX, entity.posY + 1.0D, entity.posZ);
 		}
 	}
-	
+	/*
 	@SubscribeEvent
 	public void onLivingHurt(LivingHurtEvent event) 
 	{ 
 		EntitySoulstoneBolt.onLivingHurt(event);
 	}
- 
+ */
     @EventHandler
 	public void onInit(FMLInitializationEvent event)
 	{       
     	int entityID = 999;
-        EntityRegistry.registerModEntity(EntitySoulstoneBolt.class, "soulstonebolt",entityID++, instance, 64, 1, true);
+       
         EntityRegistry.registerModEntity(EntityLightningballBolt.class, "lightningbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityHarvestBolt.class, "harvestbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityWaterBolt.class, "waterbolt",entityID++, instance, 64, 1, true);
