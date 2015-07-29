@@ -153,9 +153,21 @@ public class ModProj
                 else //not found
                 {
                 	float f3 = 0.25F;
+                	BlockPos sparkle = player.getPosition();
+                	
                 	for (int i = 0; i < 4; ++i) 
-                		world.spawnParticle(EnumParticleTypes.PORTAL, player.posX  + world.rand.nextDouble() * 0.6D - 0.3D, player.posY + 0.5D, player.posZ+ (double)f3 + world.rand.nextDouble() * 0.6D - 0.3D, player.motionX, player.motionY, player.motionZ, new int[0]);
-                	   
+                	{
+                		world.spawnParticle(EnumParticleTypes.PORTAL, sparkle.getX()  + world.rand.nextDouble() * 0.6D - 0.3D, sparkle.getY() + 0.5D, sparkle.getZ() + (double)f3 + world.rand.nextDouble() * 0.6D - 0.3D, player.motionX, player.motionY, player.motionZ, new int[0]);
+                		
+                		sparkle = sparkle.up();
+                		
+                		world.spawnParticle(EnumParticleTypes.PORTAL, sparkle.getX()  + world.rand.nextDouble() * 0.6D - 0.3D, sparkle.getY() + 0.5D, sparkle.getZ() + (double)f3 + world.rand.nextDouble() * 0.6D - 0.3D, player.motionX, player.motionY, player.motionZ, new int[0]);
+
+                		sparkle = sparkle.offset(player.getHorizontalFacing(),1);
+                		
+                		world.spawnParticle(EnumParticleTypes.PORTAL, sparkle.getX()  + world.rand.nextDouble() * 0.6D - 0.3D, sparkle.getY() + 0.5D, sparkle.getZ() + (double)f3 + world.rand.nextDouble() * 0.6D - 0.3D, player.motionX, player.motionY, player.motionZ, new int[0]);
+                   	   
+                	}
                 } 
 			}
 			if(held.getItem() == ItemRegistry.ender_bed)
