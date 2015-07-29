@@ -68,31 +68,24 @@ public class EntityFishingBolt extends EntityThrowable
 	{
 		ItemStack fishSpawned = null;
 		//below is from MY BlockFishing.java in the unreleased ./FarmingBlocks/
-		ItemStack plain =  new ItemStack(Items.fish,1,0);
-
-		ItemStack salmon =  new ItemStack(Items.fish,1,1);
-
-		ItemStack clownfish =  new ItemStack(Items.fish,1,2);
-		 
-		ItemStack pufferfish =  new ItemStack(Items.fish,1,3);
  
 		double diceRoll = rand.nextDouble() * 100; 
 		
 		if(diceRoll < plainChance)
 		{
-			fishSpawned = plain;
+			fishSpawned = new ItemStack(Items.fish,1,0); //plain
 		}
 		else if(diceRoll < salmonChance )
 		{
-			fishSpawned = salmon;
+			fishSpawned = new ItemStack(Items.fish,1,1);//salmon
 		}
 		else if(diceRoll < clownfishChance )
 		{
-			fishSpawned = clownfish;
+			fishSpawned = new ItemStack(Items.fish,1,2);//clown
 		}
 		else
 		{
-			fishSpawned = pufferfish;
+			fishSpawned = new ItemStack(Items.fish,1,3);//puffer
 		}
 		
 		return fishSpawned;
