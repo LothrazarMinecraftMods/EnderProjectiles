@@ -7,6 +7,7 @@ import com.lothrazar.samsprojectiles.entity.projectile.*;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityEnderEye;
 import net.minecraft.entity.player.EntityPlayer; 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -150,24 +151,11 @@ public class ModProj
                     
     				wasThrown = true;
                 }
-                else //not found
+                else //not found, so play sounds to alert player
                 {
-                	float f3 = 0.25F;
-                	BlockPos sparkle = player.getPosition();
-                	
-                	for (int i = 0; i < 4; ++i) 
-                	{
-                		world.spawnParticle(EnumParticleTypes.PORTAL, sparkle.getX()  + world.rand.nextDouble() * 0.6D - 0.3D, sparkle.getY() + 0.5D, sparkle.getZ() + (double)f3 + world.rand.nextDouble() * 0.6D - 0.3D, player.motionX, player.motionY, player.motionZ, new int[0]);
-                		
-                		sparkle = sparkle.up();
-                		
-                		world.spawnParticle(EnumParticleTypes.PORTAL, sparkle.getX()  + world.rand.nextDouble() * 0.6D - 0.3D, sparkle.getY() + 0.5D, sparkle.getZ() + (double)f3 + world.rand.nextDouble() * 0.6D - 0.3D, player.motionX, player.motionY, player.motionZ, new int[0]);
+                	//could spawn particle here if we either A) senta custom packet or B) spawned the entity and have it die right away with a custom flag
+                	world.playSoundAtEntity(player, "item.fireCharge.use", 1,1);
 
-                		sparkle = sparkle.offset(player.getHorizontalFacing(),1);
-                		
-                		world.spawnParticle(EnumParticleTypes.PORTAL, sparkle.getX()  + world.rand.nextDouble() * 0.6D - 0.3D, sparkle.getY() + 0.5D, sparkle.getZ() + (double)f3 + world.rand.nextDouble() * 0.6D - 0.3D, player.motionX, player.motionY, player.motionZ, new int[0]);
-                   	   
-                	}
                 } 
 			}
 			if(held.getItem() == ItemRegistry.ender_bed)
