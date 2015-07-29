@@ -12,9 +12,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ItemRegistry 
 { 
 	public static ArrayList<Item> items = new ArrayList<Item>();
-    
-	//public static Item soulstone;
-	public static Item ender_bed;
+     
 	public static Item ender_water;
 	public static Item ender_snow;
 	public static Item ender_harvest;
@@ -23,6 +21,7 @@ public class ItemRegistry
 	public static Item ender_wool;
 	public static Item ender_fishing;
 	public static Item ender_dungeon;
+	public static Item ender_bed;
   
 	public static void registerItems()
 	{    
