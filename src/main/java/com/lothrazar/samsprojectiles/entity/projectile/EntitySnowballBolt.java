@@ -157,5 +157,7 @@ public class EntitySnowballBolt extends EntityThrowable
     	
     	world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), getSnowSound(world), 1,1);
     }
-    private static String getSnowSound(World world){return "dig.snow"+world.rand.nextInt(5);}
+    private static String getSnowSound(World world){return "dig.snow";
+  //  +world.rand.nextInt(5);
+    }
 }
