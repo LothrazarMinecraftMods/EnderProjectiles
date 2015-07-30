@@ -148,13 +148,14 @@ public class EntitySnowballBolt extends EntityThrowable
 		//when it hits 7, same size as full block
 		if(m+1 < 8)
 			world.setBlockState(pos, Blocks.snow_layer.getStateFromMeta(m+1));
-		
-	
+
+    	world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), getSnowSound(world), 1,1);
     }
     private static void setNewSnow(World world, BlockPos pos)
     {
-
-    	world.setBlockState(pos, Blocks.snow_layer.getDefaultState()); 
+    	world.setBlockState(pos, Blocks.snow_layer.getDefaultState());
     	
+    	world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), getSnowSound(world), 1,1);
     }
+    private static String getSnowSound(World world){return "dig.snow"+world.rand.nextInt(5);}
 }
