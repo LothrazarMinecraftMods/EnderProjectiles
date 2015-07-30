@@ -71,7 +71,7 @@ public class ModProj
 		snow_recipe = config.getInt("snow_crafted", MODID, 4, 0, 64, "");
 		water_recipe = config.getInt("water_crafted", MODID, 4, 0, 64, "");
 		harvest_recipe = config.getInt("harvest_crafted", MODID, 4, 0, 64, "");
-		wool_recipe = config.getInt("wool_crafted", MODID, 12, 0, 64, "");
+		wool_recipe = config.getInt("wool_crafted", MODID, 32, 0, 64, "");
 		fishing_recipe = config.getInt("fishing_recipe", MODID, 10, 0, 64, "");
 		bed_recipe = config.getInt("bed_recipe", MODID, 4, 0, 64, "");
 		dungeon_recipe = config.getInt("dungeon_recipe", MODID, 4, 0, 64, "");
