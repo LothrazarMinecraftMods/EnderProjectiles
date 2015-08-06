@@ -10,7 +10,8 @@ import net.minecraft.world.World;
 
 public class EntityTorchBolt extends EntityThrowable
 { 
-	public static int damageToNormal = 0;
+	public static boolean damageEntityOnHit;
+ 
 	
     public EntityTorchBolt(World worldIn)
     {
@@ -32,10 +33,11 @@ public class EntityTorchBolt extends EntityThrowable
     {
         if (mop.entityHit != null)
         {
-            float damage = damageToNormal;
+           
  
             //do the snowball damage, which should be none. put out the fire
-            mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), damage);
+        	if(damageEntityOnHit)
+        		mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0);
              
         }
         

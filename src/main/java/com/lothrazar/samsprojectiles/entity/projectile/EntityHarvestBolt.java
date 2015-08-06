@@ -12,6 +12,9 @@ import net.minecraft.world.World;
 
 public class EntityHarvestBolt extends EntityThrowable//EntitySnowball
 { 
+	public static int range_main = 6;
+	public static int range_offset = 4;
+	
     public EntityHarvestBolt(World worldIn)
     {
         super(worldIn);
@@ -35,9 +38,10 @@ public class EntityHarvestBolt extends EntityThrowable//EntitySnowball
         	BlockPos offset = mop.getBlockPos().offset(mop.sideHit);
         	
     		//it harvests a horizontal slice each time
-        	harvestArea(this.worldObj, this.getThrower(), mop.getBlockPos(),4);
-        	harvestArea(this.worldObj, this.getThrower(), offset,6);//TODO: int ranges in config!?!?!
-        	harvestArea(this.worldObj, this.getThrower(), offset.up(),4);
+        	harvestArea(this.worldObj, this.getThrower(), mop.getBlockPos(),range_main);
+        	harvestArea(this.worldObj, this.getThrower(), offset,range_main);
+        	harvestArea(this.worldObj, this.getThrower(), offset.up(),range_offset);
+        	harvestArea(this.worldObj, this.getThrower(), offset.down(),range_offset);
     	}
 		 
         this.setDead();

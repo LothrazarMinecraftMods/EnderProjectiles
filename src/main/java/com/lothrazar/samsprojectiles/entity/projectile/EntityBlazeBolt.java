@@ -17,10 +17,8 @@ import net.minecraft.world.World;
 
 public class EntityBlazeBolt extends EntityThrowable
 { 
-	public static int secondsFrozenOnHit;
-	public static int damageToNormal = 1;//TODO CONFIG
-	public static int damageToBlaze = 0;//TODO CONFIG
-	public static int fireSeconds = 5;//todo config
+	public static int fireSeconds;
+	public static boolean damageEntityOnHit;
 	
     public EntityBlazeBolt(World worldIn)
     {
@@ -42,28 +40,26 @@ public class EntityBlazeBolt extends EntityThrowable
     {
         if (mop.entityHit != null)
         {
-            float damage = damageToNormal;
-
-            if (mop.entityHit instanceof EntityBlaze)
-            {
-                damage = damageToBlaze;//TODO: config file blaze damage
-            }
-            
             //do the snowball damage, which should be none. put out the fire
-            mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), damage);
-            
-            
-            if(mop.entityHit instanceof EntityLivingBase)
+            if(damageEntityOnHit)
             {
-            	EntityLivingBase e = (EntityLivingBase)mop.entityHit;
+            	float damage = 1;
 
-                if(e.isBurning() == false)
+                if (mop.entityHit instanceof EntityBlaze)
                 {
-                	e.setFire(fireSeconds);
+                    damage = 0;
                 }
+            	mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), damage);
+            
+            }
+
+            if(mop.entityHit.isBurning() == false && fireSeconds > 0)
+            {
+            	mop.entityHit.setFire(fireSeconds);
+            }
                 
             	//e.addPotionEffect(new PotionEffect(PotionRegistry.frozen.id, secondsFrozenOnHit * Reference.TICKS_PER_SEC,0));
-            } 
+          
         }
         
         BlockPos pos = mop.getBlockPos();

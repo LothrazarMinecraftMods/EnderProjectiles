@@ -93,6 +93,15 @@ public class ModProj
 		
 		EntityShearingBolt.doesKnockback = config.getBoolean("wool.does_knockback", MODID, true,"Does appear to damage sheep on contact");
 		EntityShearingBolt.doesShearChild = config.getBoolean("wool.does_child", MODID, true,"Does shear child sheep as well.");
+		
+		EntityBlazeBolt.fireSeconds= config.getInt("blaze.fire_seconds", MODID, 3, 0, 64, "Seconds of fire to put on entity when hit");
+		EntityBlazeBolt.damageEntityOnHit=  config.getBoolean("blaze.does_knockback", MODID, true, "Does it damage entity or not on hit (0 damage to blaze, 1 to others)");
+		EntitySnowballBolt.damageEntityOnHit=  config.getBoolean("snow.does_knockback", MODID, true, "Does it damage entity or not on hit (1 damage to blaze, 0 to others)");
+		EntityTorchBolt.damageEntityOnHit=  config.getBoolean("torch.does_knockback", MODID, true, "Does it damage entity or not on hit (0 dmg like a snowball)");
+		
+		EntityHarvestBolt.range_main=  config.getInt("harvest.range_main", MODID, 6, 1, 32, "Horizontal range on level of hit to harvest");
+		EntityHarvestBolt.range_offset=  config.getInt("harvest.range_offset", MODID, 4, 1, 32, "Horizontal range on further heights to harvest");
+		
 		if(config.hasChanged()){config.save();}
 	}
 	

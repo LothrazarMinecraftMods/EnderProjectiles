@@ -18,9 +18,12 @@ import net.minecraft.world.World;
 
 public class EntitySnowballBolt extends EntityThrowable
 { 
-	public static int secondsFrozenOnHit;
-	public static int damageToNormal = 0;//TODO CONFIG
-	public static int damageToBlaze = 2;//TODO CONFIG
+	//public static int secondsFrozenOnHit;
+	//public static int fireSeconds;
+	public static boolean damageEntityOnHit;
+	public static boolean damageBlazeImmune;
+	//public static int damageToNormal = 0;//TODO CONFIG
+	//public static int damageToBlaze = 2;//TODO CONFIG
 	
     public EntitySnowballBolt(World worldIn)
     {
@@ -42,16 +45,18 @@ public class EntitySnowballBolt extends EntityThrowable
     {
         if (mop.entityHit != null)
         {
-            float damage = damageToNormal;
-
-            if (mop.entityHit instanceof EntityBlaze)
-            {
-                damage = damageToBlaze;//TODO: config file blaze damage
-            }
-            
-            //do the snowball damage, which should be none. put out the fire
-            mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), damage);
-            
+        	if(damageEntityOnHit)
+        	{
+	            float damage = 0;
+	
+	            if (mop.entityHit instanceof EntityBlaze)
+	            {
+	                damage = 1;
+	            }
+	            
+	            //do the snowball damage, which should be none. put out the fire
+	            mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), damage);
+        	}
             
             if(mop.entityHit instanceof EntityLivingBase)
             {
