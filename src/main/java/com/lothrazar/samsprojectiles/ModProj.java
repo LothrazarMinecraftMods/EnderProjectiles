@@ -90,6 +90,9 @@ public class ModProj
 		dungeon_recipe = config.getInt("dungeon_recipe", MODID, 4, 0, 64, "");
 		tnt_recipe = config.getInt("tnt_recipe", MODID, 6, 0, 64, "");
 		blaze_recipe = config.getInt("blaze_recipe", MODID, 3, 0, 64, "");
+		
+		EntityShearingBolt.doesKnockback = config.getBoolean("wool.does_knockback", MODID, true,"Does appear to damage sheep on contact");
+		EntityShearingBolt.doesShearChild = config.getBoolean("wool.does_child", MODID, true,"Does shear child sheep as well.");
 		if(config.hasChanged()){config.save();}
 	}
 	
