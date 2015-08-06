@@ -57,6 +57,7 @@ public class ModProj
 	public static int harvest_recipe;
 	public static int bed_recipe;
 	public static int dungeon_recipe;
+	public static int tnt_recipe;
 	
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent event)
@@ -75,7 +76,7 @@ public class ModProj
 		fishing_recipe = config.getInt("fishing_recipe", MODID, 10, 0, 64, "");
 		bed_recipe = config.getInt("bed_recipe", MODID, 4, 0, 64, "");
 		dungeon_recipe = config.getInt("dungeon_recipe", MODID, 4, 0, 64, "");
-		
+		tnt_recipe = config.getInt("dungeon_recipe", MODID, 6, 0, 64, "");
 		if(config.hasChanged()){config.save();}
 			//TODO:fix soulstone???
  
@@ -122,6 +123,7 @@ public class ModProj
         EntityRegistry.registerModEntity(EntityFishingBolt.class, "fishingbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityHomeBolt.class, "bedbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityDungeonEye.class, "dungeonbolt",entityID++, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntityDynamite.class, "tntbolt",entityID++, instance, 64, 1, true);
 		
 		proxy.registerRenderers();
 	}
@@ -157,6 +159,30 @@ public class ModProj
                 	world.playSoundAtEntity(player, "item.fireCharge.use", 1,1);
 
                 } 
+			}
+			if(held.getItem() == ItemRegistry.ender_tnt_1)
+			{ 
+				world.spawnEntityInWorld(new EntityDynamite(world,player,1));
+
+				wasThrown = true;
+			}
+			if(held.getItem() == ItemRegistry.ender_tnt_2)
+			{ 
+				world.spawnEntityInWorld(new EntityDynamite(world,player,2));
+
+				wasThrown = true;
+			}
+			if(held.getItem() == ItemRegistry.ender_tnt_4)
+			{ 
+				world.spawnEntityInWorld(new EntityDynamite(world,player,4));
+
+				wasThrown = true;
+			}
+			if(held.getItem() == ItemRegistry.ender_tnt_6)
+			{ 
+				world.spawnEntityInWorld(new EntityDynamite(world,player,6));
+
+				wasThrown = true;
 			}
 			if(held.getItem() == ItemRegistry.ender_bed)
 			{ 

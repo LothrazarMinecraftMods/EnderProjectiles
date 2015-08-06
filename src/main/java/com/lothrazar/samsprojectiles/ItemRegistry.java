@@ -22,9 +22,44 @@ public class ItemRegistry
 	public static Item ender_fishing;
 	public static Item ender_dungeon;
 	public static Item ender_bed;
+	public static Item ender_tnt_1;//creeper
+	public static Item ender_tnt_2;//chcr
+	public static Item ender_tnt_4;//tnt
+	public static Item ender_tnt_6;//ender crystal
   
 	public static void registerItems()
 	{    
+
+		ender_tnt_1 = new Item();
+		ItemRegistry.registerItem(ender_tnt_1, "ender_tnt_1");
+		ender_tnt_2 = new Item();
+		ItemRegistry.registerItem(ender_tnt_2, "ender_tnt_2");
+		ender_tnt_4 = new Item();
+		ItemRegistry.registerItem(ender_tnt_4, "ender_tnt_4");
+		ender_tnt_6 = new Item();
+		ItemRegistry.registerItem(ender_tnt_6, "ender_tnt_6");
+		
+		if(ModProj.tnt_recipe > 0)
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_tnt_1, ModProj.tnt_recipe)
+				,new ItemStack(Items.ender_pearl)
+				,new ItemStack(Blocks.tnt)
+				,new ItemStack(Items.clay_ball));
+
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_tnt_2, 1)
+				,new ItemStack(ender_tnt_1)
+				,new ItemStack(Items.gunpowder));
+
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_tnt_4, 1)
+				,new ItemStack(ender_tnt_2)
+				,new ItemStack(Items.gunpowder));
+
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_tnt_6, 1)
+				,new ItemStack(ender_tnt_4)
+				,new ItemStack(Items.gunpowder));
+
+		}
+		
 		ender_dungeon = new Item();
 		ItemRegistry.registerItem(ender_dungeon, "ender_dungeon");
 		
