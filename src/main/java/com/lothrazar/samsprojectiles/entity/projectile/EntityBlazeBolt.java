@@ -148,7 +148,7 @@ public class EntityBlazeBolt extends EntityThrowable
     		{
     			this.worldObj.setBlockState(p, Blocks.fire.getDefaultState()); 
     			
-    			this.worldObj.spawnParticle(EnumParticleTypes.FLAME, p.getX(), p.getY(), p.getZ(), 0.5, 0.5, 0.5);
+    			this.worldObj.spawnParticle(EnumParticleTypes.FLAME, p.up().getX(), p.up().getY(), p.up().getZ(), 0, 0, 0);
     		}
         }
     	 
