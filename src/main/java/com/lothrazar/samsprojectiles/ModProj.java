@@ -59,15 +59,26 @@ public class ModProj
 	public static int dungeon_recipe;
 	public static int tnt_recipe;
 	public static int blaze_recipe;
-	
+	Configuration config;
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent event)
 	{ 
-		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		config = new Configuration(event.getSuggestedConfigurationFile());
+		
+		loadConfig();
+		
+		ItemRegistry.registerItems();
+		
+		FMLCommonHandler.instance().bus().register(instance); 
+		MinecraftForge.EVENT_BUS.register(instance);
+		 
+	}
+
+	private void loadConfig() 
+	{	
 		config.load();
-		
 		config.addCustomCategoryComment(MODID, "For each item, you can decide how many the recipe produces.  Set to zero to disable the crafting recipe.");
-		
+	
 		torch_recipe = config.getInt("torch_crafted", MODID, 6, 0, 64, "");
 		lightning_recipe = config.getInt("lightning_crafted", MODID, 1, 0, 64, "");
 		snow_recipe = config.getInt("snow_crafted", MODID, 4, 0, 64, "");
@@ -79,16 +90,7 @@ public class ModProj
 		dungeon_recipe = config.getInt("dungeon_recipe", MODID, 4, 0, 64, "");
 		tnt_recipe = config.getInt("tnt_recipe", MODID, 6, 0, 64, "");
 		blaze_recipe = config.getInt("blaze_recipe", MODID, 3, 0, 64, "");
-		
 		if(config.hasChanged()){config.save();}
-			//TODO:fix soulstone???
- 
-		
-		ItemRegistry.registerItems();
-		
-		FMLCommonHandler.instance().bus().register(instance); 
-		MinecraftForge.EVENT_BUS.register(instance);
-		 
 	}
 	
 	public static void teleportWallSafe(EntityLivingBase player, World world, BlockPos coords)
