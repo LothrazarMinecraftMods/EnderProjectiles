@@ -77,8 +77,8 @@ public class ModProj
 		fishing_recipe = config.getInt("fishing_recipe", MODID, 10, 0, 64, "");
 		bed_recipe = config.getInt("bed_recipe", MODID, 4, 0, 64, "");
 		dungeon_recipe = config.getInt("dungeon_recipe", MODID, 4, 0, 64, "");
-		tnt_recipe = config.getInt("dungeon_recipe", MODID, 6, 0, 64, "");
-		blaze_recipe = config.getInt("dungeon_recipe", MODID, 3, 0, 64, "");
+		tnt_recipe = config.getInt("tnt_recipe", MODID, 6, 0, 64, "");
+		blaze_recipe = config.getInt("blaze_recipe", MODID, 3, 0, 64, "");
 		
 		if(config.hasChanged()){config.save();}
 			//TODO:fix soulstone???
