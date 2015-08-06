@@ -58,6 +58,7 @@ public class ModProj
 	public static int bed_recipe;
 	public static int dungeon_recipe;
 	public static int tnt_recipe;
+	public static int blaze_recipe;
 	
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent event)
@@ -77,6 +78,8 @@ public class ModProj
 		bed_recipe = config.getInt("bed_recipe", MODID, 4, 0, 64, "");
 		dungeon_recipe = config.getInt("dungeon_recipe", MODID, 4, 0, 64, "");
 		tnt_recipe = config.getInt("dungeon_recipe", MODID, 6, 0, 64, "");
+		blaze_recipe = config.getInt("dungeon_recipe", MODID, 5, 0, 64, "");
+		
 		if(config.hasChanged()){config.save();}
 			//TODO:fix soulstone???
  
@@ -124,6 +127,7 @@ public class ModProj
         EntityRegistry.registerModEntity(EntityHomeBolt.class, "bedbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityDungeonEye.class, "dungeonbolt",entityID++, instance, 64, 1, true);
         EntityRegistry.registerModEntity(EntityDynamite.class, "tntbolt",entityID++, instance, 64, 1, true);
+        EntityRegistry.registerModEntity(EntityBlazeBolt.class, "tntbolt",entityID++, instance, 64, 1, true);
 		
 		proxy.registerRenderers();
 	}
@@ -181,6 +185,12 @@ public class ModProj
 			if(held.getItem() == ItemRegistry.ender_tnt_6)
 			{ 
 				world.spawnEntityInWorld(new EntityDynamite(world,player,6));
+
+				wasThrown = true;
+			}
+			if(held.getItem() == ItemRegistry.ender_blaze)
+			{ 
+				world.spawnEntityInWorld(new EntityBlazeBolt(world,player));
 
 				wasThrown = true;
 			}

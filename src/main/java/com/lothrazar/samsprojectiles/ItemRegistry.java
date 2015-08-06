@@ -21,6 +21,7 @@ public class ItemRegistry
 	public static Item ender_wool;
 	public static Item ender_fishing;
 	public static Item ender_dungeon;
+	public static Item ender_blaze;
 	public static Item ender_bed;
 	public static Item ender_tnt_1;//creeper
 	public static Item ender_tnt_2;//chcr
@@ -58,6 +59,17 @@ public class ItemRegistry
 				,new ItemStack(ender_tnt_4)
 				,new ItemStack(Items.gunpowder));
 
+		}
+
+		ender_blaze = new Item();
+		ItemRegistry.registerItem(ender_blaze, "ender_blaze");
+		
+		if(ModProj.blaze_recipe > 0)
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ender_blaze, ModProj.blaze_recipe)
+				,new ItemStack(Items.ender_pearl)
+				,new ItemStack(Items.blaze_powder)
+				,new ItemStack(Items.flint));
 		}
 		
 		ender_dungeon = new Item();
