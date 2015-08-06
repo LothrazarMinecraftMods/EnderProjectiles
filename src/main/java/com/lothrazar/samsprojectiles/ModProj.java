@@ -101,6 +101,13 @@ public class ModProj
 		
 		EntityHarvestBolt.range_main=  config.getInt("harvest.range_main", MODID, 6, 1, 32, "Horizontal range on level of hit to harvest");
 		EntityHarvestBolt.range_offset=  config.getInt("harvest.range_offset", MODID, 4, 1, 32, "Horizontal range on further heights to harvest");
+		EntityHarvestBolt.doesHarvestStem=config.getBoolean("harvest.does_harvest_stem", MODID, false, "Does it harvest stems (pumkin/melon)");
+		EntityHarvestBolt.doesHarvestSapling=config.getBoolean("harvest.does_harvest_sapling", MODID, false, "Does it harvest sapling");
+		EntityHarvestBolt.doesHarvestTallgrass=config.getBoolean("harvest.does_harvest_tallgrass", MODID, false, "Does it harvest tallgrass/doubleplants");
+		EntityHarvestBolt.doesHarvestMushroom=config.getBoolean("harvest.does_harvest_mushroom", MODID, true, "Does it harvest mushrooms");
+		EntityHarvestBolt.doesMelonBlocks=config.getBoolean("harvest.does_harvest_melonblock", MODID, true, "Does it harvest pumpkin block");
+		EntityHarvestBolt.doesPumpkinBlocks=config.getBoolean("harvest.does_harvest_pumpkinblock", MODID, true, "Does it harvest melon block");
+		
 		
 		if(config.hasChanged()){config.save();}
 	}
