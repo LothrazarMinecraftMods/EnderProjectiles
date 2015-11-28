@@ -22,7 +22,8 @@ public class ClientProxy extends CommonProxy
         registerEntities();
     }
     
-    private void registerEntities()
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	private void registerEntities()
     {
     	RenderManager rm = Minecraft.getMinecraft().getRenderManager();
     	RenderItem ri = Minecraft.getMinecraft().getRenderItem();

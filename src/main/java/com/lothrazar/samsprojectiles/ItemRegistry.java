@@ -1,8 +1,7 @@
 package com.lothrazar.samsprojectiles;
 
 import java.util.ArrayList;  
-
-import net.minecraft.entity.item.EntityEnderEye;
+ 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;

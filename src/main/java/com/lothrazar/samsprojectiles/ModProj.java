@@ -1,13 +1,10 @@
 package com.lothrazar.samsprojectiles;
  
-import java.util.ArrayList;
-
 import com.lothrazar.samsprojectiles.entity.projectile.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityEnderEye;
 import net.minecraft.entity.player.EntityPlayer; 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -19,9 +16,8 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent; 
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -69,9 +65,7 @@ public class ModProj
 		
 		ItemRegistry.registerItems();
 		
-		FMLCommonHandler.instance().bus().register(instance); 
 		MinecraftForge.EVENT_BUS.register(instance);
-		 
 	}
 
 	private void loadConfig() 
@@ -161,7 +155,7 @@ public class ModProj
 		EntityPlayer player = event.entityPlayer;
 		ItemStack held = player.getCurrentEquippedItem();
 	
-		if(held != null && event.action.RIGHT_CLICK_AIR == event.action )
+		if(held != null && Action.RIGHT_CLICK_AIR == event.action )
 		{
 			boolean wasThrown = false;
 			if(held.getItem() == ItemRegistry.ender_dungeon)

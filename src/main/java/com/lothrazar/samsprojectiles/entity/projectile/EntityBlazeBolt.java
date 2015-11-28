@@ -80,7 +80,7 @@ public class EntityBlazeBolt extends EntityThrowable
         	offset = mop.getBlockPos().offset(mop.sideHit);
         }
         
-        Block hitBlock = this.worldObj.getBlockState(pos).getBlock();
+        //Block hitBlock = this.worldObj.getBlockState(pos).getBlock();
         if(mop.sideHit != null) offset = pos.offset(mop.sideHit);
         ArrayList<BlockPos> toSetFire = new   ArrayList<BlockPos>();
     	if(this.isInWater() == false )

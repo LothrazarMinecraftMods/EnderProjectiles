@@ -2,16 +2,13 @@ package com.lothrazar.samsprojectiles.entity.projectile;
  
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
-import net.minecraft.block.BlockMelon;
 import net.minecraft.block.BlockMushroom;
-import net.minecraft.block.BlockPumpkin;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.BlockStem;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
