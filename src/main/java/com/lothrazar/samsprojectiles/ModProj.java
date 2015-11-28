@@ -27,7 +27,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
-@Mod(modid = ModProj.MODID,  useMetadata = true )
+@Mod(modid = ModProj.MODID,  useMetadata = true,updateJSON="https://raw.githubusercontent.com/LothrazarMinecraftMods/EnderProjectiles/master/update.json" )
 public class ModProj
 {
     public static final String MODID = "samsprojectiles"; 
