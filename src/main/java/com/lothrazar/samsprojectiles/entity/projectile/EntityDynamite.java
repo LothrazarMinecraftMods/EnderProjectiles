@@ -1,16 +1,22 @@
 package com.lothrazar.samsprojectiles.entity.projectile; 
 
 import net.minecraft.entity.EntityLivingBase;  
-import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.entity.projectile.EntityThrowable; 
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityDynamite extends EntityThrowable
 { 
-	private float explosionLevel=1.0F;//creeper is 1=regular, 2=charged. 4=tnt, 6=endercrystal
+	public static final float EX_CREEPER = 1;
+	public static final float EX_CHARGEDCREEPER = 2;
+	public static final float EX_TNT= 4;
+	public static final float EX_ENDCRYSTAL = 6;
+	private float explosionLevel;
+	
     public EntityDynamite(World worldIn)
     {
         super(worldIn); 
+        this.explosionLevel = EX_CREEPER;
     }
     public EntityDynamite(World worldIn, int explos)
     {
@@ -30,7 +36,7 @@ public class EntityDynamite extends EntityThrowable
     }
  
     @Override
-    protected void onImpact(MovingObjectPosition mop)
+    protected void onImpact(RayTraceResult mop)
     { 
         this.worldObj.createExplosion(this, this.posX, this.posY + (double)(this.height / 2.0F), this.posZ, explosionLevel, true);
         this.setDead(); 

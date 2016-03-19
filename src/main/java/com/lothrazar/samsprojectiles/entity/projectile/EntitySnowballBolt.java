@@ -2,18 +2,18 @@ package com.lothrazar.samsprojectiles.entity.projectile;
 
 
 import com.lothrazar.samsprojectiles.ModProj;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
-//import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
+import net.minecraft.init.Blocks; 
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.EnumParticleTypes; 
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World; 
 
 public class EntitySnowballBolt extends EntityThrowable
@@ -41,7 +41,7 @@ public class EntitySnowballBolt extends EntityThrowable
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition mop)
+    protected void onImpact(RayTraceResult mop)
     {
         if (mop.entityHit != null)
         {
@@ -154,15 +154,12 @@ public class EntitySnowballBolt extends EntityThrowable
 		if(m+1 < 8)
 			world.setBlockState(pos, Blocks.snow_layer.getStateFromMeta(m+1));
 
-    	world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), getSnowSound(world), 1,1);
+    	world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.block_snow_place, SoundCategory.BLOCKS, 1,1,false);
     }
     private static void setNewSnow(World world, BlockPos pos)
     {
     	world.setBlockState(pos, Blocks.snow_layer.getDefaultState());
     	
-    	world.playSoundEffect(pos.getX(), pos.getY(), pos.getZ(), getSnowSound(world), 1,1);
-    }
-    private static String getSnowSound(World world){return "dig.snow";
-  //  +world.rand.nextInt(5);
-    }
+    	world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.block_snow_place, SoundCategory.BLOCKS, 1,1,false);
+    } 
 }

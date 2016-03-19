@@ -1,17 +1,18 @@
 package com.lothrazar.samsprojectiles.entity.projectile;
 
 import com.lothrazar.samsprojectiles.ItemRegistry;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.item.ItemStack; 
+import net.minecraft.util.DamageSource; 
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityShearingBolt extends EntityThrowable
@@ -34,7 +35,7 @@ public class EntityShearingBolt extends EntityThrowable
     }
 
 	@Override
-	protected void onImpact(MovingObjectPosition mop) 
+	protected void onImpact(RayTraceResult mop) 
 	{
 		if (mop.entityHit != null && mop.entityHit instanceof EntitySheep)
         {
@@ -59,9 +60,13 @@ public class EntityShearingBolt extends EntityThrowable
 	                    entityitem.motionZ += (double)((sheep.worldObj.rand.nextFloat() - sheep.worldObj.rand.nextFloat()) * 0.1F);
 	                }
 	
-	                if(doesKnockback)
+	                if(doesKnockback){
 	                	sheep.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0);
-	                sheep.playSound("mob.sheep.shear", 1.0F, 1.0F);
+	                }
+	                
+	                BlockPos pos = sheep.getPosition();
+	            	worldObj.playSound(pos.getX(),pos.getY(),pos.getZ(), SoundEvents.entity_sheep_shear, SoundCategory.PLAYERS, 1.0F, 1.0F,false);
+	    	 		
                 
 				}
 				//else we hit a child sheep and config disables that

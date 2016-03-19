@@ -1,22 +1,23 @@
 package com.lothrazar.samsprojectiles;
- 
-import com.lothrazar.samsprojectiles.entity.projectile.*;
 
+import com.lothrazar.samsprojectiles.entity.projectile.*;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer; 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent; 
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -27,23 +28,23 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
-@Mod(modid = ModProj.MODID,  useMetadata = true,updateJSON="https://raw.githubusercontent.com/LothrazarMinecraftMods/EnderProjectiles/master/update.json" )
-public class ModProj
-{
-    public static final String MODID = "samsprojectiles"; 
-	public static final String TEXTURE_LOCATION = MODID + ":"; 
-	@SidedProxy(clientSide="com.lothrazar.samsprojectiles.ClientProxy", serverSide="com.lothrazar.samsprojectiles.CommonProxy")
-	public static CommonProxy proxy;   
+@Mod(modid = ModProj.MODID, useMetadata = true, updateJSON = "https://raw.githubusercontent.com/LothrazarMinecraftMods/EnderProjectiles/master/update.json")
+public class ModProj{
+
+	public static final String MODID = "samsprojectiles";
+	public static final String TEXTURE_LOCATION = MODID + ":";
+	@SidedProxy(clientSide = "com.lothrazar.samsprojectiles.ClientProxy", serverSide = "com.lothrazar.samsprojectiles.CommonProxy")
+	public static CommonProxy proxy;
 	@Instance(value = ModProj.MODID)
 	public static ModProj instance;
-	public static CreativeTabs tabSamsContent = new CreativeTabs("tabSamsProj") 
-	{ 
+	public static CreativeTabs tabSamsContent = new CreativeTabs("tabSamsProj") {
+
 		@Override
-		public Item getTabIconItem() 
-		{ 
+		public Item getTabIconItem(){
+
 			return ItemRegistry.ender_harvest;
 		}
-	};    
+	};
 	public static int fishing_recipe;
 	public static int wool_recipe;
 	public static int torch_recipe;
@@ -56,23 +57,24 @@ public class ModProj
 	public static int tnt_recipe;
 	public static int blaze_recipe;
 	Configuration config;
+
 	@EventHandler
-	public void onPreInit(FMLPreInitializationEvent event)
-	{ 
+	public void onPreInit(FMLPreInitializationEvent event){
+
 		config = new Configuration(event.getSuggestedConfigurationFile());
-		
+
 		loadConfig();
-		
+
 		ItemRegistry.registerItems();
-		
+
 		MinecraftForge.EVENT_BUS.register(instance);
 	}
 
-	private void loadConfig() 
-	{	
+	private void loadConfig(){
+
 		config.load();
 		config.addCustomCategoryComment(MODID, "For each item, you can decide how many the recipe produces.  Set to zero to disable the crafting recipe.");
-	
+
 		torch_recipe = config.getInt("torch_crafted", MODID, 6, 0, 64, "");
 		lightning_recipe = config.getInt("lightning_crafted", MODID, 1, 0, 64, "");
 		snow_recipe = config.getInt("snow_crafted", MODID, 4, 0, 64, "");
@@ -84,192 +86,163 @@ public class ModProj
 		dungeon_recipe = config.getInt("dungeon_recipe", MODID, 4, 0, 64, "");
 		tnt_recipe = config.getInt("tnt_recipe", MODID, 6, 0, 64, "");
 		blaze_recipe = config.getInt("blaze_recipe", MODID, 3, 0, 64, "");
-		
-		EntityShearingBolt.doesKnockback = config.getBoolean("wool.does_knockback", MODID, true,"Does appear to damage sheep on contact");
-		EntityShearingBolt.doesShearChild = config.getBoolean("wool.does_child", MODID, true,"Does shear child sheep as well.");
-		
-		EntityBlazeBolt.fireSeconds= config.getInt("blaze.fire_seconds", MODID, 3, 0, 64, "Seconds of fire to put on entity when hit");
-		EntityBlazeBolt.damageEntityOnHit=  config.getBoolean("blaze.does_knockback", MODID, true, "Does it damage entity or not on hit (0 damage to blaze, 1 to others)");
-		EntitySnowballBolt.damageEntityOnHit=  config.getBoolean("snow.does_knockback", MODID, true, "Does it damage entity or not on hit (1 damage to blaze, 0 to others)");
-		EntityTorchBolt.damageEntityOnHit=  config.getBoolean("torch.does_knockback", MODID, true, "Does it damage entity or not on hit (0 dmg like a snowball)");
-		
-		EntityHarvestBolt.range_main=  config.getInt("harvest.range_main", MODID, 6, 1, 32, "Horizontal range on level of hit to harvest");
-		EntityHarvestBolt.range_offset=  config.getInt("harvest.range_offset", MODID, 4, 1, 32, "Horizontal range on further heights to harvest");
-		EntityHarvestBolt.doesHarvestStem=config.getBoolean("harvest.does_harvest_stem", MODID, false, "Does it harvest stems (pumkin/melon)");
-		EntityHarvestBolt.doesHarvestSapling=config.getBoolean("harvest.does_harvest_sapling", MODID, false, "Does it harvest sapling");
-		EntityHarvestBolt.doesHarvestTallgrass=config.getBoolean("harvest.does_harvest_tallgrass", MODID, false, "Does it harvest tallgrass/doubleplants");
-		EntityHarvestBolt.doesHarvestMushroom=config.getBoolean("harvest.does_harvest_mushroom", MODID, true, "Does it harvest mushrooms");
-		EntityHarvestBolt.doesMelonBlocks=config.getBoolean("harvest.does_harvest_melonblock", MODID, true, "Does it harvest pumpkin block");
-		EntityHarvestBolt.doesPumpkinBlocks=config.getBoolean("harvest.does_harvest_pumpkinblock", MODID, true, "Does it harvest melon block");
-		
-		
-		if(config.hasChanged()){config.save();}
-	}
-	
-	public static void teleportWallSafe(EntityLivingBase player, World world, BlockPos coords)
-	{
-		player.setPositionAndUpdate(coords.getX(), coords.getY(), coords.getZ()); 
 
-		moveEntityWallSafe(player, world);
-	}
-	
-	public static void moveEntityWallSafe(EntityLivingBase entity, World world) 
-	{
-		while (!world.getCollidingBoundingBoxes(entity, entity.getEntityBoundingBox()).isEmpty())
-		{
-			entity.setPositionAndUpdate(entity.posX, entity.posY + 1.0D, entity.posZ);
+		EntityShearingBolt.doesKnockback = config.getBoolean("wool.does_knockback", MODID, true, "Does appear to damage sheep on contact");
+		EntityShearingBolt.doesShearChild = config.getBoolean("wool.does_child", MODID, true, "Does shear child sheep as well.");
+
+		EntityBlazeBolt.fireSeconds = config.getInt("blaze.fire_seconds", MODID, 3, 0, 64, "Seconds of fire to put on entity when hit");
+		EntityBlazeBolt.damageEntityOnHit = config.getBoolean("blaze.does_knockback", MODID, true, "Does it damage entity or not on hit (0 damage to blaze, 1 to others)");
+		EntitySnowballBolt.damageEntityOnHit = config.getBoolean("snow.does_knockback", MODID, true, "Does it damage entity or not on hit (1 damage to blaze, 0 to others)");
+		EntityTorchBolt.damageEntityOnHit = config.getBoolean("torch.does_knockback", MODID, true, "Does it damage entity or not on hit (0 dmg like a snowball)");
+
+		EntityHarvestBolt.range_main = config.getInt("harvest.range_main", MODID, 6, 1, 32, "Horizontal range on level of hit to harvest");
+		EntityHarvestBolt.range_offset = config.getInt("harvest.range_offset", MODID, 4, 1, 32, "Horizontal range on further heights to harvest");
+		EntityHarvestBolt.doesHarvestStem = config.getBoolean("harvest.does_harvest_stem", MODID, false, "Does it harvest stems (pumkin/melon)");
+		EntityHarvestBolt.doesHarvestSapling = config.getBoolean("harvest.does_harvest_sapling", MODID, false, "Does it harvest sapling");
+		EntityHarvestBolt.doesHarvestTallgrass = config.getBoolean("harvest.does_harvest_tallgrass", MODID, false, "Does it harvest tallgrass/doubleplants");
+		EntityHarvestBolt.doesHarvestMushroom = config.getBoolean("harvest.does_harvest_mushroom", MODID, true, "Does it harvest mushrooms");
+		EntityHarvestBolt.doesMelonBlocks = config.getBoolean("harvest.does_harvest_melonblock", MODID, true, "Does it harvest pumpkin block");
+		EntityHarvestBolt.doesPumpkinBlocks = config.getBoolean("harvest.does_harvest_pumpkinblock", MODID, true, "Does it harvest melon block");
+
+		if(config.hasChanged()){
+			config.save();
 		}
 	}
-	/*
-	@SubscribeEvent
-	public void onLivingHurt(LivingHurtEvent event) 
-	{ 
-		EntitySoulstoneBolt.onLivingHurt(event);
-	}
- */
-    @EventHandler
-	public void onInit(FMLInitializationEvent event)
-	{       
-    	int entityID = 999;
-       
-        EntityRegistry.registerModEntity(EntityLightningballBolt.class, "lightningbolt",entityID++, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityHarvestBolt.class, "harvestbolt",entityID++, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityWaterBolt.class, "waterbolt",entityID++, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntitySnowballBolt.class, "frostbolt",entityID++, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityTorchBolt.class, "torchbolt",entityID++, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityShearingBolt.class, "woolbolt",entityID++, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityFishingBolt.class, "fishingbolt",entityID++, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityHomeBolt.class, "bedbolt",entityID++, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityDungeonEye.class, "dungeonbolt",entityID++, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityDynamite.class, "tntbolt",entityID++, instance, 64, 1, true);
-        EntityRegistry.registerModEntity(EntityBlazeBolt.class, "tntbolt",entityID++, instance, 64, 1, true);
-		
+
+	@EventHandler
+	public void onInit(FMLInitializationEvent event){
+
+		int entityID = 999;
+
+		EntityRegistry.registerModEntity(EntityLightningballBolt.class, "lightningbolt", entityID++, instance, 64, 1, true);
+		EntityRegistry.registerModEntity(EntityHarvestBolt.class, "harvestbolt", entityID++, instance, 64, 1, true);
+		EntityRegistry.registerModEntity(EntityWaterBolt.class, "waterbolt", entityID++, instance, 64, 1, true);
+		EntityRegistry.registerModEntity(EntitySnowballBolt.class, "frostbolt", entityID++, instance, 64, 1, true);
+		EntityRegistry.registerModEntity(EntityTorchBolt.class, "torchbolt", entityID++, instance, 64, 1, true);
+		EntityRegistry.registerModEntity(EntityShearingBolt.class, "woolbolt", entityID++, instance, 64, 1, true);
+		EntityRegistry.registerModEntity(EntityFishingBolt.class, "fishingbolt", entityID++, instance, 64, 1, true);
+		EntityRegistry.registerModEntity(EntityHomeBolt.class, "bedbolt", entityID++, instance, 64, 1, true);
+		EntityRegistry.registerModEntity(EntityDungeonEye.class, "dungeonbolt", entityID++, instance, 64, 1, true);
+		EntityRegistry.registerModEntity(EntityDynamite.class, "tntbolt", entityID++, instance, 64, 1, true);
+		EntityRegistry.registerModEntity(EntityBlazeBolt.class, "tntbolt", entityID++, instance, 64, 1, true);
+
 		proxy.registerRenderers();
 	}
-    
-    @SubscribeEvent
-	public void onPlayerInteract(PlayerInteractEvent event)
-  	{        
-		if(event.pos == null){return;}
+
+	@SubscribeEvent
+	public void onPlayerInteract(PlayerInteractEvent event){
+
+		if(event.pos == null){
+			return;
+		}
 		World world = event.world;
 		EntityPlayer player = event.entityPlayer;
-		ItemStack held = player.getCurrentEquippedItem();
-	
-		if(held != null && Action.RIGHT_CLICK_AIR == event.action )
-		{
+
+		ItemStack held = player.getHeldItemMainhand();// player.getCurrentEquippedItem();
+
+		if(held != null && Action.RIGHT_CLICK_AIR == event.action){
 			boolean wasThrown = false;
-			if(held.getItem() == ItemRegistry.ender_dungeon)
-			{ 
-                EntityDungeonEye entityendereye = new EntityDungeonEye(world, player);
- 
-                BlockPos blockpos = findClosestBlock(player, Blocks.mob_spawner, EntityDungeonEye.RADIUS);
-   
-                if (blockpos != null)
-                { 
-                    entityendereye.moveTowards(blockpos);
-                      
-                    world.spawnEntityInWorld(entityendereye); 
-                    
-    				wasThrown = true;
-                }
-                else //not found, so play sounds to alert player
-                {
-                	//could spawn particle here if we either A) senta custom packet or B) spawned the entity and have it die right away with a custom flag
-                	world.playSoundAtEntity(player, "item.fireCharge.use", 1,1);
+			if(held.getItem() == ItemRegistry.ender_dungeon){
+				EntityDungeonEye entityendereye = new EntityDungeonEye(world, player);
 
-                } 
-			}
-			if(held.getItem() == ItemRegistry.ender_tnt_1)
-			{ 
-				world.spawnEntityInWorld(new EntityDynamite(world,player,1));
+				BlockPos blockpos = findClosestBlock(player, Blocks.mob_spawner, EntityDungeonEye.RADIUS);
 
-				wasThrown = true;
+				if(blockpos != null){
+					entityendereye.moveTowards(blockpos);
+
+					world.spawnEntityInWorld(entityendereye);
+
+					wasThrown = true;
+				}
+				else // not found, so play sounds to alert player
+				{
+					// could spawn particle here if we either A) senta custom packet or B) spawned
+					// the entity and have it die right away with a custom flag
+
+					world.playSound(event.pos.getX(), event.pos.getY(), event.pos.getZ(), SoundEvents.item_firecharge_use, SoundCategory.PLAYERS, 1.0F, 1.0F, false);
+
+				}
 			}
-			if(held.getItem() == ItemRegistry.ender_tnt_2)
-			{ 
-				world.spawnEntityInWorld(new EntityDynamite(world,player,2));
+			if(held.getItem() == ItemRegistry.ender_tnt_1){
+				world.spawnEntityInWorld(new EntityDynamite(world, player, 1));
 
 				wasThrown = true;
 			}
-			if(held.getItem() == ItemRegistry.ender_tnt_4)
-			{ 
-				world.spawnEntityInWorld(new EntityDynamite(world,player,4));
+			if(held.getItem() == ItemRegistry.ender_tnt_2){
+				world.spawnEntityInWorld(new EntityDynamite(world, player, 2));
 
 				wasThrown = true;
 			}
-			if(held.getItem() == ItemRegistry.ender_tnt_6)
-			{ 
-				world.spawnEntityInWorld(new EntityDynamite(world,player,6));
+			if(held.getItem() == ItemRegistry.ender_tnt_4){
+				world.spawnEntityInWorld(new EntityDynamite(world, player, 4));
 
 				wasThrown = true;
 			}
-			if(held.getItem() == ItemRegistry.ender_blaze)
-			{ 
-				world.spawnEntityInWorld(new EntityBlazeBolt(world,player));
+			if(held.getItem() == ItemRegistry.ender_tnt_6){
+				world.spawnEntityInWorld(new EntityDynamite(world, player, 6));
 
 				wasThrown = true;
 			}
-			if(held.getItem() == ItemRegistry.ender_bed)
-			{ 
-				world.spawnEntityInWorld(new EntityHomeBolt(world,player));
+			if(held.getItem() == ItemRegistry.ender_blaze){
+				world.spawnEntityInWorld(new EntityBlazeBolt(world, player));
 
 				wasThrown = true;
 			}
-			if(held.getItem() == ItemRegistry.ender_torch)
-			{ 
-				world.spawnEntityInWorld(new EntityTorchBolt(world,player));
+			if(held.getItem() == ItemRegistry.ender_bed){
+				world.spawnEntityInWorld(new EntityHomeBolt(world, player));
+
 				wasThrown = true;
 			}
-			if(held.getItem() == ItemRegistry.ender_wool)
-			{ 
-				world.spawnEntityInWorld(new EntityShearingBolt(world,player));
+			if(held.getItem() == ItemRegistry.ender_torch){
+				world.spawnEntityInWorld(new EntityTorchBolt(world, player));
 				wasThrown = true;
 			}
-			if(held.getItem() == ItemRegistry.ender_fishing)
-			{ 
-				world.spawnEntityInWorld(new EntityFishingBolt(world,player));
+			if(held.getItem() == ItemRegistry.ender_wool){
+				world.spawnEntityInWorld(new EntityShearingBolt(world, player));
+				wasThrown = true;
+			}
+			if(held.getItem() == ItemRegistry.ender_fishing){
+				world.spawnEntityInWorld(new EntityFishingBolt(world, player));
 				wasThrown = true;
 			}
 			/*
-			else if(held.getItem() == ItemRegistry.soulstone)
-			{
-				world.spawnEntityInWorld(new EntitySoulstoneBolt(world,player));
-				wasThrown = true;
-			}*/
-			else if(held.getItem() == ItemRegistry.ender_snow)
-			{
-				world.spawnEntityInWorld(new EntitySnowballBolt(world,player));
+			 * else if(held.getItem() == ItemRegistry.soulstone) { world.spawnEntityInWorld(new
+			 * EntitySoulstoneBolt(world,player)); wasThrown = true; }
+			 */
+			else if(held.getItem() == ItemRegistry.ender_snow){
+				world.spawnEntityInWorld(new EntitySnowballBolt(world, player));
 				wasThrown = true;
 			}
-			else if(held.getItem() == ItemRegistry.ender_water)
-			{
-				world.spawnEntityInWorld(new EntityWaterBolt(world,player));
+			else if(held.getItem() == ItemRegistry.ender_water){
+				world.spawnEntityInWorld(new EntityWaterBolt(world, player));
 				wasThrown = true;
 			}
-			else if(held.getItem() == ItemRegistry.ender_harvest)
-			{
-				world.spawnEntityInWorld(new EntityHarvestBolt(world,player));
+			else if(held.getItem() == ItemRegistry.ender_harvest){
+				world.spawnEntityInWorld(new EntityHarvestBolt(world, player));
 				wasThrown = true;
 			}
-			else if(held.getItem() == ItemRegistry.ender_lightning)
-			{
-				world.spawnEntityInWorld(new EntityLightningballBolt(world,player));
+			else if(held.getItem() == ItemRegistry.ender_lightning){
+				world.spawnEntityInWorld(new EntityLightningballBolt(world, player));
 				wasThrown = true;
 			}
-			
-			if(wasThrown)
-			{
-				player.swingItem();
-				world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F);
-				if(player.capabilities.isCreativeMode == false)
+
+			if(wasThrown){
+				player.swingArm(EnumHand.MAIN_HAND);
+
+				world.playSound(event.pos.getX(), event.pos.getY(), event.pos.getZ(), SoundEvents.entity_egg_throw, SoundCategory.PLAYERS, 1.0F, 1.0F, false);
+
+				// world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F);
+				if(player.capabilities.isCreativeMode == false){
 					player.inventory.decrStackSize(player.inventory.currentItem, 1);
+				}
 			}
 		}
-  	}	
-    public static BlockPos findClosestBlock(EntityPlayer player, Block blockHunt, int RADIUS ) 
-	{        
-    	//imported from MY CommandSearchSpawner in ./Commands/
-    	BlockPos found = null;
+	}
+
+	public static BlockPos findClosestBlock(EntityPlayer player, Block blockHunt, int RADIUS){
+
+		// imported from MY CommandSearchSpawner in ./Commands/
+		BlockPos found = null;
 		int xMin = (int) player.posX - RADIUS;
 		int xMax = (int) player.posX + RADIUS;
 
@@ -278,70 +251,66 @@ public class ModProj
 
 		int zMin = (int) player.posZ - RADIUS;
 		int zMax = (int) player.posZ + RADIUS;
-		 
+
 		int distance = 0, distanceClosest = RADIUS * RADIUS;
-		
-		BlockPos posCurrent = null; 
-		for (int xLoop = xMin; xLoop <= xMax; xLoop++)
-		{
-			for (int yLoop = yMin; yLoop <= yMax; yLoop++)
-			{
-				for (int zLoop = zMin; zLoop <= zMax; zLoop++)
-				{  
+
+		BlockPos posCurrent = null;
+		for(int xLoop = xMin; xLoop <= xMax; xLoop++){
+			for(int yLoop = yMin; yLoop <= yMax; yLoop++){
+				for(int zLoop = zMin; zLoop <= zMax; zLoop++){
 					posCurrent = new BlockPos(xLoop, yLoop, zLoop);
-					
-					if(player.worldObj.getBlockState(posCurrent).getBlock().equals(blockHunt))
-					{  
-						//  find closest?
-						
-						if(found == null){ found = posCurrent;}
-						else
-						{
+
+					if(player.worldObj.getBlockState(posCurrent).getBlock().equals(blockHunt)){
+						// find closest?
+
+						if(found == null){
+							found = posCurrent;
+						}
+						else{
 							distance = (int) distanceBetweenHorizontal(player.getPosition(), posCurrent);
-							
-							if(distance < distanceClosest)
-							{
+
+							if(distance < distanceClosest){
 								found = posCurrent;
-								
+
 								distanceClosest = distance;
 							}
 						}
-					} 
+					}
 				}
 			}
 		}
-		
-		return found; 
+
+		return found;
 	}
-	public static double distanceBetweenHorizontal(BlockPos start, BlockPos end)
-	{
-		int xDistance =  Math.abs(start.getX() - end.getX() );
-		int zDistance =  Math.abs(start.getZ() - end.getZ() );
-		//ye olde pythagoras
+
+	public static double distanceBetweenHorizontal(BlockPos start, BlockPos end){
+
+		int xDistance = Math.abs(start.getX() - end.getX());
+		int zDistance = Math.abs(start.getZ() - end.getZ());
+		// ye olde pythagoras
 		return Math.sqrt(xDistance * xDistance + zDistance * zDistance);
 	}
-	
-	public static void addChatMessage(EntityPlayer player,String string) 
-	{ 
-		player.addChatMessage(new ChatComponentTranslation(string));
-	}
-	
-	public static void spawnParticle(World world, EnumParticleTypes type, BlockPos pos)
-	{
-		spawnParticle(world,type,pos.getX(),pos.getY(),pos.getZ());
-    }
 
-	public static void spawnParticle(World world, EnumParticleTypes type, double x, double y, double z)
-	{ 
-		//http://www.minecraftforge.net/forum/index.php?topic=9744.0
-		for(int countparticles = 0; countparticles <= 10; ++countparticles)
-		{
-			world.spawnParticle(type, x + (world.rand.nextDouble() - 0.5D) * (double)0.8, y + world.rand.nextDouble() * (double)1.5 - (double)0.1, z + (world.rand.nextDouble() - 0.5D) * (double)0.8, 0.0D, 0.0D, 0.0D);
-		} 
-    }
-	
-	public static String lang(String name)
-	{
-		return StatCollector.translateToLocal(name);
+	public static void addChatMessage(EntityPlayer player, String string){
+
+		player.addChatMessage(new TextComponentTranslation(string));
+	}
+
+	public static void spawnParticle(World world, EnumParticleTypes type, BlockPos pos){
+
+		spawnParticle(world, type, pos.getX(), pos.getY(), pos.getZ());
+	}
+
+	public static void spawnParticle(World world, EnumParticleTypes type, double x, double y, double z){
+
+		// http://www.minecraftforge.net/forum/index.php?topic=9744.0
+		for(int countparticles = 0; countparticles <= 10; ++countparticles){
+			world.spawnParticle(type, x + (world.rand.nextDouble() - 0.5D) * (double) 0.8, y + world.rand.nextDouble() * (double) 1.5 - (double) 0.1, z + (world.rand.nextDouble() - 0.5D) * (double) 0.8, 0.0D, 0.0D, 0.0D);
+		}
+	}
+
+	public static String lang(String name){
+
+		return I18n.translateToLocal(name);
 	}
 }

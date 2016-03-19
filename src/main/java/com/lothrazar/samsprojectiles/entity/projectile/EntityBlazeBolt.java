@@ -1,18 +1,17 @@
 package com.lothrazar.samsprojectiles.entity.projectile; 
 
 import java.util.ArrayList;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.EnumParticleTypes; 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World; 
 
 public class EntityBlazeBolt extends EntityThrowable
@@ -36,7 +35,7 @@ public class EntityBlazeBolt extends EntityThrowable
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition mop)
+    protected void onImpact(RayTraceResult mop)
     {
         if (mop.entityHit != null)
         {

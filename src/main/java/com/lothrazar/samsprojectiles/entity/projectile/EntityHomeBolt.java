@@ -1,12 +1,15 @@
 package com.lothrazar.samsprojectiles.entity.projectile;
  
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.init.Blocks; 
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityHomeBolt  extends EntityThrowable
@@ -27,7 +30,7 @@ public class EntityHomeBolt  extends EntityThrowable
     }
 
 	@Override
-	protected void onImpact(MovingObjectPosition mop) 
+	protected void onImpact(RayTraceResult mop) 
 	{
 		 if(this.getThrower() != null && this.getThrower() instanceof EntityPlayer && this.getThrower().dimension == 0)
     	 {
@@ -41,7 +44,8 @@ public class EntityHomeBolt  extends EntityThrowable
 			 }
 
 			 teleportWallSafe(player, worldObj, realBedPos); 
-			 worldObj.playSoundAtEntity(player, "mob.endermen.portal", 1.0F, 1.0F);
+			 worldObj.playSound(realBedPos.getX(), realBedPos.getY(), realBedPos.getZ(), 
+					 SoundEvents.entity_endermen_teleport, SoundCategory.PLAYERS, 1.0F, 1.0F,false);
 			
 			 this.setDead();
     	 }
@@ -55,12 +59,13 @@ public class EntityHomeBolt  extends EntityThrowable
 		  
 		 if(coords != null)
 		 { 
-			 Block block = world.getBlockState(coords).getBlock();
+			 IBlockState state = world.getBlockState(coords);
+			 Block block = state.getBlock();
 			 
-			 if (block.equals(Blocks.bed) || block.isBed(world, coords, player))
-			 {
+			 if (block.equals(Blocks.bed) || block.isBed(state,world, coords, player))
+			 { 
 				 //then move over according to how/where the bed wants me to spawn
-				 realBedPos = block.getBedSpawnPosition(world, coords, player); 
+				 realBedPos = block.getBedSpawnPosition(state,world, coords, player); 
 			 }
 		 }
 		 
@@ -74,9 +79,18 @@ public class EntityHomeBolt  extends EntityThrowable
 	}
 	public static void moveEntityWallSafe(EntityLivingBase entity, World world) 
 	{
-		while (entity.getEntityBoundingBox() != null && //gm 3 must have a null box because of the ghost
-				!world.getCollidingBoundingBoxes(entity, entity.getEntityBoundingBox()).isEmpty())
+		while (
+				//make a 2 high space for player
+				world.isAirBlock(entity.getPosition()) == false &&
+				world.isAirBlock(entity.getPosition().up()) == false
+				//entity.getEntityBoundingBox() != null && //gm 3 must have a null box because of the ghost
+
+
+				//intersects?
+				//!world.getCollidingBoundingBoxes(entity, entity.getEntityBoundingBox()).isEmpty()
+				)
 		{
+			
 			entity.setPositionAndUpdate(entity.posX, entity.posY + 1.0D, entity.posZ);
 		}
 	}

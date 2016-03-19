@@ -6,10 +6,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.init.Blocks; 
+import net.minecraft.util.DamageSource; 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World; 
 
 public class EntityWaterBolt extends EntityThrowable
@@ -34,7 +34,7 @@ public class EntityWaterBolt extends EntityThrowable
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition mop)
+    protected void onImpact(RayTraceResult mop)
     {
         if (mop.entityHit != null)
         {

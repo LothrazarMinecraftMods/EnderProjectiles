@@ -2,15 +2,16 @@ package com.lothrazar.samsprojectiles.entity.projectile;
  
 import com.lothrazar.samsprojectiles.ItemRegistry;
 import com.lothrazar.samsprojectiles.ModProj;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack; 
+import net.minecraft.util.EnumParticleTypes; 
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityFishingBolt extends EntityThrowable
@@ -35,7 +36,7 @@ public class EntityFishingBolt extends EntityThrowable
 	static final double clownfishChance = 2 + salmonChance;//so between 85 and 87
 	
 	@Override
-	protected void onImpact(MovingObjectPosition mop) 
+	protected void onImpact(RayTraceResult mop) 
 	{
 		BlockPos pos = mop.getBlockPos();
         if(pos == null){return;} 
@@ -51,7 +52,10 @@ public class EntityFishingBolt extends EntityThrowable
 	 			worldObj.spawnEntityInWorld(ei);
 	 		} 
 	 		
-			worldObj.playSoundAtEntity(ei, "game.neutral.swim.splash", 1.0F, 1.0F);
+	 		worldObj.playSound(pos.getX(),pos.getY(),pos.getZ(),  SoundEvents.entity_player_splash, SoundCategory.PLAYERS, 1.0F, 1.0F,false);
+	 		
+	 		//SoundEvent.soundEventRegistry.
+			//worldObj.playSoundAtEntity(ei, "game.neutral.swim.splash", 1.0F, 1.0F);
 			this.setDead();
         }
         else

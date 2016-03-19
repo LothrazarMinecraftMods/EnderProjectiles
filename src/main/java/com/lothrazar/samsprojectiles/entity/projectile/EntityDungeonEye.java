@@ -1,11 +1,11 @@
 package com.lothrazar.samsprojectiles.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.entity.projectile.EntityThrowable; 
+import net.minecraft.util.EnumParticleTypes; 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityDungeonEye  extends EntityThrowable
@@ -36,7 +36,7 @@ public class EntityDungeonEye  extends EntityThrowable
       ////  double dz = this.targetZ - this.posZ;
       //  float dist = MathHelper.sqrt_double(dx * dx + dz * dz);
  
-        this.setThrowableHeading(this.targetX, this.targetZ, this.targetY, (float)(this.getVelocity()-0.2F), 0.5F);
+        this.setThrowableHeading(this.targetX, this.targetZ, this.targetY, (float)(this.getGravityVelocity()+0.2F), 0.5F);
     } 
     
     @Override
@@ -81,7 +81,7 @@ public class EntityDungeonEye  extends EntityThrowable
 	public static final int RADIUS = 128;// TODO: config file for these? yes no?
  
 	@Override
-	protected void onImpact(MovingObjectPosition mop) 
+	protected void onImpact(RayTraceResult mop) 
 	{ 
 		this.setDead();//does not pass through walls or entities
 	}

@@ -1,15 +1,16 @@
 package com.lothrazar.samsprojectiles;
 
 import com.lothrazar.samsprojectiles.entity.projectile.*;
-
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+//import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+//import net.minecraft.client.resources.model.ModelResourceLocation;
 
 public class ClientProxy extends CommonProxy 
 {   
@@ -22,7 +23,7 @@ public class ClientProxy extends CommonProxy
         registerEntities();
     }
     
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	private void registerEntities()
     {
     	RenderManager rm = Minecraft.getMinecraft().getRenderManager();

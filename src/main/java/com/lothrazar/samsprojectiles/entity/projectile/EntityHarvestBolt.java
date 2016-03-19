@@ -10,9 +10,9 @@ import net.minecraft.block.IGrowable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.init.Blocks; 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World; 
 
 public class EntityHarvestBolt extends EntityThrowable//EntitySnowball
@@ -41,7 +41,7 @@ public class EntityHarvestBolt extends EntityThrowable//EntitySnowball
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition mop)
+    protected void onImpact(RayTraceResult mop)
     {
     	if(this.getThrower() != null && mop.sideHit != null)
     	{

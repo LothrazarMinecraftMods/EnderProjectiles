@@ -2,10 +2,10 @@ package com.lothrazar.samsprojectiles.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.init.Blocks; 
+import net.minecraft.util.DamageSource; 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World; 
 
 public class EntityTorchBolt extends EntityThrowable
@@ -29,7 +29,7 @@ public class EntityTorchBolt extends EntityThrowable
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition mop)
+    protected void onImpact(RayTraceResult mop)
     {
         if (mop.entityHit != null)
         {
