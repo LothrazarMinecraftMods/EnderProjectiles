@@ -4,28 +4,20 @@ import com.lothrazar.samsprojectiles.entity.projectile.*;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 @Mod(modid = ModProj.MODID, useMetadata = true, updateJSON = "https://raw.githubusercontent.com/LothrazarMinecraftMods/EnderProjectiles/master/update.json")
@@ -67,7 +59,9 @@ public class ModProj{
 
 		ItemRegistry.registerItems();
 
-		MinecraftForge.EVENT_BUS.register(instance);
+		System.out.println("register");
+		
+		MinecraftForge.EVENT_BUS.register(new ModEvents());
 	}
 
 	private void loadConfig(){
@@ -127,116 +121,6 @@ public class ModProj{
 		EntityRegistry.registerModEntity(EntityBlazeBolt.class, "tntbolt", entityID++, instance, 64, 1, true);
 
 		proxy.registerRenderers();
-	}
-
-	@SubscribeEvent
-	public void onPlayerInteract(PlayerInteractEvent event){
-
-		if(event.pos == null){
-			return;
-		}
-		World world = event.world;
-		EntityPlayer player = event.entityPlayer;
-
-		ItemStack held = player.getHeldItemMainhand();// player.getCurrentEquippedItem();
-
-		if(held != null && Action.RIGHT_CLICK_AIR == event.action){
-			boolean wasThrown = false;
-			if(held.getItem() == ItemRegistry.ender_dungeon){
-				EntityDungeonEye entityendereye = new EntityDungeonEye(world, player);
-
-				BlockPos blockpos = findClosestBlock(player, Blocks.mob_spawner, EntityDungeonEye.RADIUS);
-
-				if(blockpos != null){
-					entityendereye.moveTowards(blockpos);
-
-					world.spawnEntityInWorld(entityendereye);
-
-					wasThrown = true;
-				}
-				else // not found, so play sounds to alert player
-				{
-					// could spawn particle here if we either A) senta custom packet or B) spawned
-					// the entity and have it die right away with a custom flag
-
-					world.playSound(event.pos.getX(), event.pos.getY(), event.pos.getZ(), SoundEvents.item_firecharge_use, SoundCategory.PLAYERS, 1.0F, 1.0F, false);
-
-				}
-			}
-			if(held.getItem() == ItemRegistry.ender_tnt_1){
-				world.spawnEntityInWorld(new EntityDynamite(world, player, 1));
-
-				wasThrown = true;
-			}
-			if(held.getItem() == ItemRegistry.ender_tnt_2){
-				world.spawnEntityInWorld(new EntityDynamite(world, player, 2));
-
-				wasThrown = true;
-			}
-			if(held.getItem() == ItemRegistry.ender_tnt_4){
-				world.spawnEntityInWorld(new EntityDynamite(world, player, 4));
-
-				wasThrown = true;
-			}
-			if(held.getItem() == ItemRegistry.ender_tnt_6){
-				world.spawnEntityInWorld(new EntityDynamite(world, player, 6));
-
-				wasThrown = true;
-			}
-			if(held.getItem() == ItemRegistry.ender_blaze){
-				world.spawnEntityInWorld(new EntityBlazeBolt(world, player));
-
-				wasThrown = true;
-			}
-			if(held.getItem() == ItemRegistry.ender_bed){
-				world.spawnEntityInWorld(new EntityHomeBolt(world, player));
-
-				wasThrown = true;
-			}
-			if(held.getItem() == ItemRegistry.ender_torch){
-				world.spawnEntityInWorld(new EntityTorchBolt(world, player));
-				wasThrown = true;
-			}
-			if(held.getItem() == ItemRegistry.ender_wool){
-				world.spawnEntityInWorld(new EntityShearingBolt(world, player));
-				wasThrown = true;
-			}
-			if(held.getItem() == ItemRegistry.ender_fishing){
-				world.spawnEntityInWorld(new EntityFishingBolt(world, player));
-				wasThrown = true;
-			}
-			/*
-			 * else if(held.getItem() == ItemRegistry.soulstone) { world.spawnEntityInWorld(new
-			 * EntitySoulstoneBolt(world,player)); wasThrown = true; }
-			 */
-			else if(held.getItem() == ItemRegistry.ender_snow){
-				world.spawnEntityInWorld(new EntitySnowballBolt(world, player));
-				wasThrown = true;
-			}
-			else if(held.getItem() == ItemRegistry.ender_water){
-				world.spawnEntityInWorld(new EntityWaterBolt(world, player));
-				wasThrown = true;
-			}
-			else if(held.getItem() == ItemRegistry.ender_harvest){
-				world.spawnEntityInWorld(new EntityHarvestBolt(world, player));
-				wasThrown = true;
-			}
-			else if(held.getItem() == ItemRegistry.ender_lightning){
-				world.spawnEntityInWorld(new EntityLightningballBolt(world, player));
-				wasThrown = true;
-			}
-
-			if(wasThrown){
-				player.swingArm(EnumHand.MAIN_HAND);
-
-				world.playSound(event.pos.getX(), event.pos.getY(), event.pos.getZ(), SoundEvents.entity_egg_throw, SoundCategory.PLAYERS, 1.0F, 1.0F, false);
-
-				// world.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F);
-				if(player.capabilities.isCreativeMode == false){
-					player.inventory.decrStackSize(player.inventory.currentItem, 1);
-				}
-			}
-		}
 	}
 
 	public static BlockPos findClosestBlock(EntityPlayer player, Block blockHunt, int RADIUS){
