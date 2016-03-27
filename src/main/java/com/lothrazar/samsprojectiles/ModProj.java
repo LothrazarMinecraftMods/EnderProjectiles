@@ -59,9 +59,7 @@ public class ModProj{
 
 		ItemRegistry.registerItems();
 
-		System.out.println("register");
-		
-		MinecraftForge.EVENT_BUS.register(new ModEvents());
+		// MinecraftForge.EVENT_BUS.register(new ModEvents());
 	}
 
 	private void loadConfig(){
