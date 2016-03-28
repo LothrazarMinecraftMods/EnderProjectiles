@@ -13,6 +13,6 @@
     "1.9-recommended": "1.2.2"
   }
   ,"1.9":{
-  	"1.2.2":"Dungeon eye less glitchy and more particles so you can follow it."
+  	"1.2.2":"Dungeon eye less glitchy and more particles so you can follow it.  Thrown water replaces flowing water with source."
   }
 }
