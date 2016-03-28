@@ -37,8 +37,10 @@ public class EntityDungeonEye extends EntityThrowable{
 		// double dx = this.targetX - this.posX;
 		// // double dz = this.targetZ - this.posZ;
 		// float dist = MathHelper.sqrt_double(dx * dx + dz * dz);
-
-		this.setThrowableHeading(this.targetX, this.targetZ, this.targetY, (float) (this.getGravityVelocity()), 0.01F);
+		
+		System.out.println("TARGET " + pos.toString());
+		
+		this.setThrowableHeading(this.targetX, this.targetY, this.targetZ, (float) (this.getGravityVelocity()), 0.01F);
 	}
 
 	@Override
@@ -47,36 +49,48 @@ public class EntityDungeonEye extends EntityThrowable{
 		super.onUpdate();
 
 		if(!this.worldObj.isRemote){
-			float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+			float mHoriz = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
-			double d0 = this.targetX - this.posX;
-			double d1 = this.targetZ - this.posZ;
-			float f1 = (float) Math.sqrt(d0 * d0 + d1 * d1);
-			float f2 = (float) Math.atan2(d1, d0);
-			double d2 = (double) f + (double) (f1 - f) * 0.0025D;
+			double distX = this.targetX - this.posX;
+			double distY = this.targetY - this.posY;
+			double distZ = this.targetZ - this.posZ;
+			float distLine = (float) Math.sqrt(distX * distX + distZ * distZ);
+			float f2 = (float) Math.atan2(distZ, distX);
+			double d2 = (double) mHoriz + (double) (distLine - mHoriz) * 0.0025D;
 
-			if(f1 < 1.0F){
+			if(distLine < 1.0F){
 				d2 *= 0.8D;
-				this.motionY *= 0.8D;
+				//this.motionY *= 0.8D;//disabling gravity
 			}
 
 			this.motionX = Math.cos((double) f2) * d2;
 			this.motionZ = Math.sin((double) f2) * d2;
-
+			
+			//the vertical speed gets faster, the closer you are to it horizontally
+			double vanillaFactor = 0.014999999664723873D;//using a const pulled from vanilla endereye
+			this.motionY = (14 * distY)/distLine  * vanillaFactor;
+			
 			if(this.posY < this.targetY){
-				this.motionY += (1.0D - this.motionY) * 0.014999999664723873D;
+				//make sure motion is going up
+				if(this.motionY < 0){
+					this.motionY *= -1;
+				}
 			}
 			else{
-				this.motionY += (-1.0D - this.motionY) * 0.014999999664723873D;
+				//make sure motion is going DOWN
+				if(this.motionY > 0){
+					this.motionY *= -1;
+				}
 			}
+			System.out.println("motionY="+this.motionY );
 		}
 		float f3 = 0.25F;
-		for(int i = 0; i < particleCount; ++i)
+		for(int i = 0; i < particleCount; ++i){
 			this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX - this.motionX * (double) f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double) f3 - 0.5D, this.posZ - this.motionZ * (double) f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ, new int[0]);
-
+		}
 	}
 	
-	private final static int particleCount = 12;
+	private final static int particleCount = 22;
 	
 	@Override
 	protected void onImpact(RayTraceResult mop){

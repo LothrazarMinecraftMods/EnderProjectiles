@@ -48,7 +48,7 @@ public class ModProj{
 	public static int tnt_recipe;
 	public static int blaze_recipe;
 
-	public static int DUNGEONRADIUS = 128;// TODO: config file for these? yes no?
+	public static int DUNGEONRADIUS = 64;// TODO: config file for these? yes no?
 
 	Configuration config;
 

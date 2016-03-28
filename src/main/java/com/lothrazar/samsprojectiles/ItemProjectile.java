@@ -11,6 +11,7 @@ import com.lothrazar.samsprojectiles.entity.projectile.EntityShearingBolt;
 import com.lothrazar.samsprojectiles.entity.projectile.EntitySnowballBolt;
 import com.lothrazar.samsprojectiles.entity.projectile.EntityTorchBolt;
 import com.lothrazar.samsprojectiles.entity.projectile.EntityWaterBolt;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
@@ -54,10 +55,14 @@ public class ItemProjectile extends Item{
 			}
 			else{
 				// not found, so play sounds to alert player
-				// could spawn particle here if we either A) senta custom packet or B) spawned
-				// the entity and have it die right away with a custom flag
 
+				//also drop it on ground to signal a failed throw
+				if(player.capabilities.isCreativeMode == false){
+					player.inventory.decrStackSize(player.inventory.currentItem, 1);
+				}
 				BlockPos pos = player.getPosition();
+				world.spawnEntityInWorld(new EntityItem(world,pos.getX(), pos.getY(), pos.getZ(),new ItemStack(ItemRegistry.ender_dungeon)));
+
 				world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.item_firecharge_use, SoundCategory.PLAYERS, 1.0F, 1.0F, false);
 
 			}
