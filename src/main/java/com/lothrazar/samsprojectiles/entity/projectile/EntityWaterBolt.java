@@ -3,20 +3,16 @@ package com.lothrazar.samsprojectiles.entity.projectile;
 import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.DamageSource;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityWaterBolt extends EntityThrowable{
-
-	public static int secondsFrozenOnHit;
-	public static int damageToNormal = 0;// TODO CONFIG
-	public static int damageToBlaze = 2;// TODO CONFIG
 
 	public EntityWaterBolt(World worldIn){
 
@@ -32,68 +28,72 @@ public class EntityWaterBolt extends EntityThrowable{
 
 		super(worldIn, x, y, z);
 	}
-
+	
+	public static final int nether = -1;
 	@Override
 	protected void onImpact(RayTraceResult mop){
 
 		if(mop.entityHit != null){
-			float damage = damageToNormal;
-
-			if(mop.entityHit instanceof EntityBlaze){
-				damage = damageToBlaze;// TODO: config file blaze damage
-			}
-
-			// do the snowball damage, which should be none. put out the fire
-			mop.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), damage);
-
+			
 			if(mop.entityHit instanceof EntityLivingBase){
 				EntityLivingBase e = (EntityLivingBase) mop.entityHit;
 
 				if(e.isBurning()){
 					e.extinguish();
 				}
-
-				// e.addPotionEffect(new PotionEffect(PotionRegistry.frozen.id, secondsFrozenOnHit
-				// * Reference.TICKS_PER_SEC,0));
 			}
 		}
 
 		BlockPos pos = mop.getBlockPos();
-		BlockPos offset = null;
-
 		if(pos == null){
-			return;
-		}// hasn't happened yet, but..
+			pos = this.getPosition();
+		}
+
+		if(pos != null){
+			//UtilParticle.spawnParticle(this.worldObj, EnumParticleTypes.WATER_SPLASH, pos);
+
+			if(this.getThrower() instanceof EntityPlayer && mop.sideHit != null && this.worldObj.isRemote == false){
+
+				this.worldObj.extinguishFire((EntityPlayer) this.getThrower(), pos, mop.sideHit);
+			}
+		}
+		
+		if(this.dimension != nether){
+		
+			worldObj.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.entity_player_splash, SoundCategory.PLAYERS, 1.0F, 1.0F, false);
+
+			// so far its both client and server
+			if(this.worldObj.isRemote == false){
+
+				if(pos != null){
+
+					if(this.isAirOrWater(pos)){
+
+						this.worldObj.setBlockState(pos, Blocks.flowing_water.getDefaultState(), 3);
+					}
+					if(mop.sideHit != null){
+						BlockPos offset = pos.offset(mop.sideHit);
+
+						if(offset != null && this.isAirOrWater(offset)){
+
+							this.worldObj.setBlockState(offset, Blocks.flowing_water.getDefaultState(), 3);
+						}
+					}
+				}
+			}
+		}
+		
+		this.setDead();
+	}
+	
+	private boolean isAirOrWater(BlockPos pos){
 
 		ArrayList<Block> waterBoth = new ArrayList<Block>();
 		waterBoth.add(Blocks.flowing_water);
 		waterBoth.add(Blocks.water);
-		// Util.spawnParticle(this.worldObj, EnumParticleTypes.SNOWBALL, pos);
-		// Util.spawnParticle(this.worldObj, EnumParticleTypes.SNOW_SHOVEL, pos);
-
-		if(mop.sideHit != null && this.getThrower() instanceof EntityPlayer){
-			this.worldObj.extinguishFire((EntityPlayer) this.getThrower(), pos, mop.sideHit);
-
-			offset = mop.getBlockPos().offset(mop.sideHit);
+		if(pos == null){
+			return false;
 		}
-
-		Block hitBlock = this.worldObj.getBlockState(pos).getBlock();
-
-		if(waterBoth.contains(hitBlock)){
-			// turn flowing water into solid
-			this.worldObj.setBlockState(pos, Blocks.water.getDefaultState());
-		}
-
-		if(this.isInWater() == false){
-			if(this.worldObj.isAirBlock(pos)){
-				this.worldObj.setBlockState(pos, Blocks.water.getDefaultState());
-			}
-			else if(offset != null && this.worldObj.isAirBlock(mop.getBlockPos().offset(mop.sideHit))){
-				this.worldObj.setBlockState(mop.getBlockPos().offset(mop.sideHit), Blocks.water.getDefaultState());
-			}
-		}
-
-		this.setDead();
-
+		return this.worldObj.isAirBlock(pos) || this.worldObj.getBlockState(pos).getBlock().getUnlocalizedName().equalsIgnoreCase("tile.water") || (this.worldObj.getBlockState(pos) != null && waterBoth.contains(this.worldObj.getBlockState(pos).getBlock()));
 	}
 }
