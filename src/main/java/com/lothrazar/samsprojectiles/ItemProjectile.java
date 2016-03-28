@@ -41,26 +41,7 @@ public class ItemProjectile extends Item{
 		}
 
 		if(held.getItem() == ItemRegistry.ender_dungeon){
-
-			BlockPos blockpos = ModProj.findClosestBlock(player, Blocks.mob_spawner, ModProj.DUNGEONRADIUS);
-
-			if(blockpos != null){
-
-				EntityDungeonEye entityendereye = new EntityDungeonEye(world, player);
-			
-				doThrow(world, player, hand, entityendereye);
-
-				entityendereye.moveTowards(blockpos);
-			}
-			else{
-				// not found, so play sounds to alert player
-				// could spawn particle here if we either A) senta custom packet or B) spawned
-				// the entity and have it die right away with a custom flag
-
-				BlockPos pos = player.getPosition();
-				world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.item_firecharge_use, SoundCategory.PLAYERS, 1.0F, 1.0F, false);
-
-			}
+			doThrow(world, player, hand, new EntityDungeonEye(world, player));
 		}
 		else if(held.getItem() == ItemRegistry.ender_tnt_1){
 			doThrow(world, player, hand, new EntityDynamite(world, player, 1));

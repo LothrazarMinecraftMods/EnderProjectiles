@@ -48,7 +48,6 @@ public class ModProj{
 	public static int tnt_recipe;
 	public static int blaze_recipe;
 
-	public static int DUNGEONRADIUS = 128;// TODO: config file for these? yes no?
 
 	Configuration config;
 
@@ -82,7 +81,8 @@ public class ModProj{
 		blaze_recipe = config.getInt("blaze.recipe", MODID, 3, 0, 64, "");
 		
 
-		dungeon_recipe = config.getInt("dungeon.radius", MODID, 64, 8, 128, "Search distance");
+		EntityDungeonEye.H_RADIUS = config.getInt("dungeon.h_radius", MODID, 32, 8, 128, "Horizontal search distance");
+		EntityDungeonEye.V_RADIUS = config.getInt("dungeon.V_radius", MODID, 32, 8, 128, "Vertical search distance");
 
 		EntityShearingBolt.doesKnockback = config.getBoolean("wool.does_knockback", MODID, true, "Does appear to damage sheep on contact");
 		EntityShearingBolt.doesShearChild = config.getBoolean("wool.does_child", MODID, true, "Does shear child sheep as well.");
@@ -126,20 +126,23 @@ public class ModProj{
 		proxy.registerRenderers();
 	}
 
-	public static BlockPos findClosestBlock(EntityPlayer player, Block blockHunt, int RADIUS){
+	public static BlockPos findClosestBlock(World worldObj, BlockPos startPos, Block blockHunt, int hRadius, int vRadius){
 
+		if(startPos == null){
+			return null;
+		}
 		// imported from MY CommandSearchSpawner in ./Commands/
 		BlockPos found = null;
-		int xMin = (int) player.posX - RADIUS;
-		int xMax = (int) player.posX + RADIUS;
+		int xMin = (int) startPos.getX() - hRadius;
+		int xMax = (int) startPos.getX() + hRadius;
 
-		int yMin = (int) player.posY - RADIUS;
-		int yMax = (int) player.posY + RADIUS;
+		int yMin = (int) startPos.getY() - vRadius;
+		int yMax = (int) startPos.getY() + vRadius;
 
-		int zMin = (int) player.posZ - RADIUS;
-		int zMax = (int) player.posZ + RADIUS;
+		int zMin = (int) startPos.getZ() - hRadius;
+		int zMax = (int) startPos.getZ() + hRadius;
 
-		int distance = 0, distanceClosest = RADIUS * RADIUS;
+		int distance = 0, distanceClosest = hRadius * hRadius;
 
 		BlockPos posCurrent = null;
 		for(int xLoop = xMin; xLoop <= xMax; xLoop++){
@@ -147,14 +150,14 @@ public class ModProj{
 				for(int zLoop = zMin; zLoop <= zMax; zLoop++){
 					posCurrent = new BlockPos(xLoop, yLoop, zLoop);
 
-					if(player.worldObj.getBlockState(posCurrent).getBlock().equals(blockHunt)){
+					if(worldObj.getBlockState(posCurrent).getBlock().equals(blockHunt)){
 						// find closest?
 
 						if(found == null){
 							found = posCurrent;
 						}
 						else{
-							distance = (int) distanceBetweenHorizontal(player.getPosition(), posCurrent);
+							distance = (int) distanceBetweenHorizontal(startPos, posCurrent);
 
 							if(distance < distanceClosest){
 								found = posCurrent;
