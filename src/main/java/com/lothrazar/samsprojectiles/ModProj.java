@@ -82,7 +82,7 @@ public class ModProj{
 		blaze_recipe = config.getInt("blaze.recipe", MODID, 3, 0, 64, "");
 		
 
-		dungeon_recipe = config.getInt("dungeon.radius", MODID, 64, 8, 128, "Search distance");
+		ModProj.DUNGEONRADIUS = config.getInt("dungeon.radius", MODID, 64, 8, 128, "Search distance");
 
 		EntityShearingBolt.doesKnockback = config.getBoolean("wool.does_knockback", MODID, true, "Does appear to damage sheep on contact");
 		EntityShearingBolt.doesShearChild = config.getBoolean("wool.does_child", MODID, true, "Does shear child sheep as well.");
