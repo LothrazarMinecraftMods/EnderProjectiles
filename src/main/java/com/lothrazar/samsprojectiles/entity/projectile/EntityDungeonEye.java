@@ -38,7 +38,7 @@ public class EntityDungeonEye extends EntityThrowable{
 		// // double dz = this.targetZ - this.posZ;
 		// float dist = MathHelper.sqrt_double(dx * dx + dz * dz);
 
-		this.setThrowableHeading(this.targetX, this.targetZ, this.targetY, (float) (this.getGravityVelocity() + 0.2F), 0.5F);
+		this.setThrowableHeading(this.targetX, this.targetZ, this.targetY, (float) (this.getGravityVelocity()), 0.01F);
 	}
 
 	@Override
@@ -71,13 +71,13 @@ public class EntityDungeonEye extends EntityThrowable{
 			}
 		}
 		float f3 = 0.25F;
-		for(int i = 0; i < 4; ++i)
+		for(int i = 0; i < particleCount; ++i)
 			this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX - this.motionX * (double) f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double) f3 - 0.5D, this.posZ - this.motionZ * (double) f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ, new int[0]);
 
 	}
-
-	public static final int RADIUS = 128;// TODO: config file for these? yes no?
-
+	
+	private final static int particleCount = 12;
+	
 	@Override
 	protected void onImpact(RayTraceResult mop){
 

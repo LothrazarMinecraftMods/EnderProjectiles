@@ -10,7 +10,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -48,6 +47,9 @@ public class ModProj{
 	public static int dungeon_recipe;
 	public static int tnt_recipe;
 	public static int blaze_recipe;
+
+	public static int DUNGEONRADIUS = 128;// TODO: config file for these? yes no?
+
 	Configuration config;
 
 	@EventHandler
@@ -67,17 +69,20 @@ public class ModProj{
 		config.load();
 		config.addCustomCategoryComment(MODID, "For each item, you can decide how many the recipe produces.  Set to zero to disable the crafting recipe.");
 
-		torch_recipe = config.getInt("torch_crafted", MODID, 6, 0, 64, "");
-		lightning_recipe = config.getInt("lightning_crafted", MODID, 1, 0, 64, "");
-		snow_recipe = config.getInt("snow_crafted", MODID, 4, 0, 64, "");
-		water_recipe = config.getInt("water_crafted", MODID, 4, 0, 64, "");
-		harvest_recipe = config.getInt("harvest_crafted", MODID, 4, 0, 64, "");
-		wool_recipe = config.getInt("wool_crafted", MODID, 32, 0, 64, "");
-		fishing_recipe = config.getInt("fishing_recipe", MODID, 10, 0, 64, "");
-		bed_recipe = config.getInt("bed_recipe", MODID, 4, 0, 64, "");
-		dungeon_recipe = config.getInt("dungeon_recipe", MODID, 4, 0, 64, "");
-		tnt_recipe = config.getInt("tnt_recipe", MODID, 6, 0, 64, "");
-		blaze_recipe = config.getInt("blaze_recipe", MODID, 3, 0, 64, "");
+		torch_recipe = config.getInt("torch.crafted", MODID, 6, 0, 64, "");
+		lightning_recipe = config.getInt("lightning.crafted", MODID, 1, 0, 64, "");
+		snow_recipe = config.getInt("snow.crafted", MODID, 4, 0, 64, "");
+		water_recipe = config.getInt("water.crafted", MODID, 4, 0, 64, "");
+		harvest_recipe = config.getInt("harvest.crafted", MODID, 4, 0, 64, "");
+		wool_recipe = config.getInt("wool.crafted", MODID, 32, 0, 64, "");
+		fishing_recipe = config.getInt("fishing.recipe", MODID, 10, 0, 64, "");
+		bed_recipe = config.getInt("bed.recipe", MODID, 4, 0, 64, "");
+		dungeon_recipe = config.getInt("dungeon.recipe", MODID, 4, 0, 64, "");
+		tnt_recipe = config.getInt("tnt.recipe", MODID, 6, 0, 64, "");
+		blaze_recipe = config.getInt("blaze.recipe", MODID, 3, 0, 64, "");
+		
+
+		dungeon_recipe = config.getInt("dungeon.radius", MODID, 64, 8, 128, "Search distance");
 
 		EntityShearingBolt.doesKnockback = config.getBoolean("wool.does_knockback", MODID, true, "Does appear to damage sheep on contact");
 		EntityShearingBolt.doesShearChild = config.getBoolean("wool.does_child", MODID, true, "Does shear child sheep as well.");
